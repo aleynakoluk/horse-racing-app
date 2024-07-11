@@ -69,7 +69,6 @@ export default {
 .container {
   text-align: left;
   font-family: 'Arial, sans-serif';
-  background: grey;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

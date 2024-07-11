@@ -38,7 +38,7 @@ body {
 
 #app {
   font-family: 'Arial, sans-serif';
-  background: grey;
+  background: rgb(176, 176, 176);
   display: flex;
   flex-direction: column;
   overflow: hidden; /* İçeriğin taşmasını engeller */
