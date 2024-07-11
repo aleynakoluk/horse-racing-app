@@ -1,16 +1,19 @@
 <template>
   <div class="race-track-container">
     <div class="race-track">
-      <div class="lane-top"></div> <!-- En üste noktalı çizgi eklendi -->
+      <div class="lane-top"></div>
       <div v-for="lane in lanes" :key="lane" class="lane">
         <div class="lane-number">{{ lane }}</div>
-        <div v-for="horse in horsesInLane(lane)" :key="horse.id" class="horse" :style="{ left: horse.position + '%' }">
-          <img :src="horse.image" alt="Horse" class="horse-img" :style="{ filter: 'hue-rotate(' + horse.hueRotate + 'deg)' }" />
+        <div v-for="(horse, horseIndex) in horsesInLane(lane)" :key="horse.id" class="horse" :style="{ left: horse.position + '%', animationDelay: calculateAnimationDelay(horseIndex) + 's' }">
+          <img :src="require(`@/assets/horse${horse.id}.png`)" alt="Horse" class="horse-img" :style="{ filter: 'hue-rotate(' + horse.hueRotate + 'deg)' }" />
         </div>
       </div>
+      <div class="finish-line">FINISH</div>
     </div>
   </div>
 </template>
+
+
 
 <script>
 export default {
@@ -28,7 +31,15 @@ export default {
   },
   methods: {
     horsesInLane(lane) {
-      return this.horses.filter(horse => horse.lane === lane);
+  return this.horses.filter(horse => horse.id === lane);
+},
+
+    calculateAnimationDelay(index) {
+      // Hareket animasyonu gecikmesini hesapla
+      return index * 0.5; // Örnek bir hesaplama
+    },
+    requireHorseImage(horseId) {
+      return require(`@/assets/horse${horseId}.png`);
     }
   },
   mounted() {
@@ -93,9 +104,24 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+  animation: run linear 5s infinite; /* Hareket animasyonu */
+}
+
+@keyframes run {
+  from { left: 0%; }
+  to { left: 100%; }
 }
 
 .horse-img {
-  width: 30px; /* Daha küçük boyut */
+  width: 80px; /* Daha küçük boyut */
+}
+
+.finish-line {
+  position: absolute;
+  top: 0;
+  left: 100%; /* Kırmızı çizgiyi bitiş çizgisine konumlandırma */
+  width: 3px;
+  height: 100%;
+  background-color: red;
 }
 </style>

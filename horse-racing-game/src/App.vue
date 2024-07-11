@@ -44,7 +44,6 @@ body {
   overflow: hidden; /* İçeriğin taşmasını engeller */
 }
 
-
 h1 {
   color: #333;
   margin-bottom: 20px;

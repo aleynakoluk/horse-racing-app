@@ -8,11 +8,12 @@ function generateHorses() {
       color: getRandomColor(),
       condition: Math.floor(Math.random() * 100) + 1,
       position: 0,
-      image: require(`@/assets/horse${i}.png`), // Her atın resmini yükler
+      image: require(`@/assets/horse${i}.png`), // ` karakteri eklenmiş
     });
   }
   return horses;
 }
+
 
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
@@ -78,7 +79,7 @@ export default createStore({
       commit('clearRaceResults');
       const schedule = generateRaceSchedule(state.horses);
       commit('setRaceSchedule', schedule);
-
+  
       schedule.forEach((race, index) => {
         setTimeout(() => {
           race.horses.forEach(horse => {
@@ -91,5 +92,5 @@ export default createStore({
         }, index * 5000); // Her yarışı 5 saniye arayla başlatır
       });
     },
-  },
+  },  
 });
