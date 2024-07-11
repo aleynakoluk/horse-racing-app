@@ -55,8 +55,8 @@ export default {
   align-items: flex-end; /* Sağ üste hizala */
   overflow-y: auto; /* Dikey scrollbar */
   overflow-x: hidden; /* X ekseninde scroll olmasın */
-  padding-right: 150px; /* RESULT KISMI İÇİN BOŞLUK BIRAKILDI */
-  margin-top: -398px;
+  padding-right: 0px; /* RESULT KISMI İÇİN BOŞLUK BIRAKILDI */
+  margin-top: -831.5px;
 }
 
 .container::-webkit-scrollbar {
@@ -86,7 +86,7 @@ export default {
   border-radius: 6px;
 }
 .table-title {
-  background-color: blue;
+  background-color: rgb(90, 220, 90);
   color: black;
   text-align: center;
   padding: 12px;
@@ -99,22 +99,31 @@ export default {
 }
 
 .table-container {
-  max-height: 390px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: 390px; /* Maksimum yükseklik */
+  overflow-y: auto; /* Dikey scrollbar */
+  overflow-x: hidden; /* X ekseninde scroll olmasın */
+}
+.table-container::-webkit-scrollbar {
+  width: 12px; /* Scroll bar genişliği */
+  background-color: #fff; /* Scroll bar arka plan rengi */
 }
 
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scroll bar rengi */
+  border-radius: 6px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
+  background-color: #fff; /* Tablo arka plan rengi */
   text-align: center;
 }
 
 th, td {
-  text-align: center;
-  padding: 8px;
+  text-align: center; 
+  padding: 0px;
   border: 1px solid #ddd;
+  white-space: nowrap; /* Uzun içerikler için satır sonu kırılmasını önle */
 }
 
 th {

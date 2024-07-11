@@ -54,8 +54,8 @@ export default {
   align-items: flex-end; /* Sağ üste hizala */
   overflow-y: auto; /* Dikey scrollbar */
   overflow-x: hidden; /* X ekseninde scroll olmasın */
-  padding-right: 150px; /* RESULT KISMI İÇİN BOŞLUK BIRAKILDI */
-  margin-top: -398px;
+  padding-right: 155px; /* RESULT KISMI İÇİN BOŞLUK BIRAKILDI */
+  margin-top: -410.5px;
 }
 
 .container::-webkit-scrollbar {
