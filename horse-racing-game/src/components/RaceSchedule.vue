@@ -47,7 +47,6 @@ export default {
 
 <style scoped>
 .container {
-  text-align: center;
   font-family: 'Arial, sans-serif';
   min-height: 100vh;
   display: flex;
@@ -95,6 +94,7 @@ export default {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
+
 .race-info {
   text-align: center; /* Yarış bilgilerini ortala */
 }
@@ -119,11 +119,11 @@ table {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff; /* Tablo arka plan rengi */
-  text-align: right;
+  text-align: center;
 }
 
 th, td {
-  text-align: right; /* Sağa hizala */
+  text-align: center; 
   padding: 0px;
   border: 1px solid #ddd;
   white-space: nowrap; /* Uzun içerikler için satır sonu kırılmasını önle */
@@ -144,6 +144,6 @@ h3 {
 }
 
 .right-align {
-  text-align: right; /* tr elemanlarını sağa hizala */
+  text-align: center; 
 }
 </style>
