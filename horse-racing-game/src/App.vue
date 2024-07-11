@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex-container">
     <ControlButtons />
     <HorseList />
     <RaceSchedule />
@@ -40,9 +40,11 @@ body {
   font-family: 'Arial, sans-serif';
   background: rgb(176, 176, 176);
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Bileşenleri yatay olarak sırala */
   overflow: hidden; /* İçeriğin taşmasını engeller */
+  flex-wrap: wrap; /* Bileşenlerin sığmadığı durumda alt satıra geçmesini sağlar */
 }
+
 
 h1 {
   color: #333;

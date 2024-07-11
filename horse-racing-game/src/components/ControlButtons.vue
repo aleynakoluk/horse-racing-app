@@ -22,12 +22,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-  margin: 20px;
-  font-family: 'Arial, sans-serif';
-  min-height: 100vh;
-}
 
 .header {
   display: flex;
@@ -35,18 +29,22 @@ export default {
   align-items: center;
   margin-bottom: 20px;
   background-color: #FF9E8F;
-  height: 40px;
+  padding: 10px;
+  width: 100vw; /* Sayfanın tam genişliğini alacak şekilde ayarlandı */
 }
 
 .title {
   font-size: 24px;
   font-weight: bold;
   color: #333;
+  width: 100%; /* Başlık genişliğini tam ekran genişliği olarak ayarladı */
 }
 
 .control-buttons {
   display: flex;
   align-items: center;
+  width: 100%; /* Kontrol düğmelerinin genişliğini tam ekran genişliği olarak ayarladı */
+  justify-content: flex-end; /* Sağa doğru hizalama */
 }
 
 .btn {
@@ -57,15 +55,56 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  padding: 2px 10px; /* Buton boyutunu küçült */
-  font-size: 14px; /* Buton yazı boyutunu küçült */
-  border-radius: 3px; /* Köşe yuvarlaklığını azalt */
+  font-size: 14px;
   transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: grey;
+  background-color: #666;
 }
 
+/* Tablet ve daha büyük cihazlar için */
+@media (min-width: 600px) {
+  .header {
+    height: 60px;
+  }
 
+  .title {
+    font-size: 28px;
+  }
+
+  .btn {
+    margin: 0 15px;
+    padding: 10px 25px;
+    font-size: 16px;
+  }
+}
+
+/* Mobil cihazlar için */
+@media (max-width: 599px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    justify-content: flex-start; /* Mobilde düğmelerin üst üste gelmesi için */
+    margin-right: 5px;
+  }
+
+  .btn {
+    margin: 5px 0;
+    width: 100%;
+    text-align: right; /* Mobilde düğmeleri sağa doğru hizala */
+  }
+}
 </style>

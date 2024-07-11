@@ -74,7 +74,8 @@ export default {
   align-items: flex-start;
   justify-content: center;
   padding: 10px;
-  width: 300px;
+  width: 100%;
+  max-width: 100%;
   height: 400px;
   overflow-y: scroll; /* Scroll bar her zaman görünür */
   overflow-x: hidden; /* X ekseninde scroll olmaması için */
@@ -132,7 +133,7 @@ table {
 }
 
 th, td {
-  text-align: left;
+  text-align: center;
   padding: 8px;
   border: 1px solid #ddd;
 }
@@ -140,5 +141,41 @@ th, td {
 th {
   background-color: #f2f2f2;
   border-bottom: 1px solid #ddd;
+}
+
+/* Tablet ve daha büyük cihazlar için */
+@media (min-width: 600px) {
+  .container {
+    max-width: 300px;
+    height: 720px;
+    padding-left: 20px; /* Sol taraf için 20px boşluk bırak */
+  }
+
+  .table-title {
+    font-size: 24px;
+  }
+
+  th, td {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+/* Mobil cihazlar için */
+@media (max-width: 599px) {
+  .container {
+    width: 100%;
+    height: 100vh;
+    padding: 5px;
+  }
+
+  .table-title {
+    font-size: 18px;
+  }
+
+  th, td {
+    font-size: 12px;
+    padding: 6px;
+  }
 }
 </style>

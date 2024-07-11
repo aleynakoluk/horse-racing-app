@@ -1,37 +1,35 @@
 <template>
-  <div class="container">
-    <div class="race-schedule">
-      <table>
-        <thead>
-          <tr>
-            <th colspan="2" class="table-title">Program</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(race, index) in raceSchedule" :key="index" class="right-align">
-            <td colspan="2" class="race-info">
-              <h3>{{ index + 1 }}ST Lab - {{ race.distance }}m</h3>
-              <div class="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Position</th>
-                      <th>Horse ID</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(horse, horseIndex) in race.horses.slice(0, 20)" :key="horseIndex">
-                      <td>{{ horseIndex + 1 }}</td>
-                      <td :style="{ color: horse.color }">Horse {{ horse.id }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="race-schedule">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2" class="table-title">Program</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(race, index) in raceSchedule" :key="index" class="right-align">
+          <td colspan="2" class="race-info">
+            <h3>{{ index + 1 }}ST Lab - {{ race.distance }}m</h3>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Position</th>
+                    <th>Horse ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(horse, horseIndex) in race.horses.slice(0, 20)" :key="horseIndex">
+                    <td>{{ horseIndex + 1 }}</td>
+                    <td :style="{ color: horse.color }">Horse {{ horse.id }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -46,34 +44,18 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  font-family: 'Arial, sans-serif';
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Sağ üste hizala */
-  overflow-y: auto; /* Dikey scrollbar */
-  overflow-x: hidden; /* X ekseninde scroll olmasın */
-  padding-right: 155px; /* RESULT KISMI İÇİN BOŞLUK BIRAKILDI */
-  margin-top: -410.5px;
-}
-
-.container::-webkit-scrollbar {
-  width: 12px; /* Scroll bar genişliği */
-  background-color: #fff; /* Scroll bar arka plan rengi */
-}
-
-.container::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scroll bar rengi */
-  border-radius: 6px;
-}
-
 .race-schedule {
-  margin-top: 0px; /* Tablo arası boşluk */
+  flex: 1; /* Esneklik */
+  max-width: 180px; /* Maksimum genişlik */
+  max-height: 748px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
   overflow-y: auto; /* Dikey scrollbar */
-  text-align: right;
-  max-height: calc(100vh - 170px); /* Sayfanın tamamından 170 piksel daha az bir maksimum yükseklik */
-  border-radius: 4px;
+  background-color: #fff; /* Arka plan rengi */
+  border: 1px solid #ddd; /* Kenarlık */
+  border-radius: 4px; /* Köşe yuvarlama */
+  position: absolute; /* Mutlak pozisyon */
+  top: 0; /* Alt kenara hizala */
+  margin-top: 80px;
+  right: 155px; /* Sağ kenara hizala */
 }
 
 .race-schedule::-webkit-scrollbar {
@@ -90,7 +72,7 @@ export default {
   background-color: blue; /* Arka plan rengi */
   color: black;
   text-align: center;
-  padding: 12px;
+  padding: 9px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -100,19 +82,10 @@ export default {
 }
 
 .table-container {
-  max-height: 390px; /* Maksimum yükseklik */
+  text-align: right;
+  max-height:  728px; /* Maksimum yükseklik */
   overflow-y: auto; /* Dikey scrollbar */
-  overflow-x: hidden; /* X ekseninde scroll olmasın */
-}
-
-.table-container::-webkit-scrollbar {
-  width: 12px; /* Scroll bar genişliği */
-  background-color: #fff; /* Scroll bar arka plan rengi */
-}
-
-.table-container::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scroll bar rengi */
-  border-radius: 6px;
+  position: relative; /* Göreli pozisyon */
 }
 
 table {
@@ -124,9 +97,7 @@ table {
 
 th, td {
   text-align: center; 
-  padding: 0px;
   border: 1px solid #ddd;
-  white-space: nowrap; /* Uzun içerikler için satır sonu kırılmasını önle */
 }
 
 th {
@@ -136,14 +107,9 @@ th {
 h3 {
   background-color: #f08080; /* Arka plan rengi */
   color: black;
-  padding: 2px;
   margin: 0;
   position: sticky; /* Sticky pozisyon */
   top: 0; /* En üstte sabitle */
   z-index: 1; /* Z indeksi */
-}
-
-.right-align {
-  text-align: center; 
 }
 </style>

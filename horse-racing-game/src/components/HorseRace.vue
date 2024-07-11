@@ -13,8 +13,6 @@
   </div>
 </template>
 
-
-
 <script>
 export default {
   name: 'HorseRace',
@@ -31,12 +29,10 @@ export default {
   },
   methods: {
     horsesInLane(lane) {
-  return this.horses.filter(horse => horse.id === lane);
-},
-
+      return this.horses.filter(horse => horse.id === lane);
+    },
     calculateAnimationDelay(index) {
-      // Hareket animasyonu gecikmesini hesapla
-      return index * 0.5; // Örnek bir hesaplama
+      return index * 0.5; // Example calculation for animation delay
     },
     requireHorseImage(horseId) {
       return require(`@/assets/horse${horseId}.png`);
@@ -56,14 +52,16 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Sayfanın tamamını kapsar */
-  margin-top: -830px;
+  height: 100vh;
+  margin-top: -830px; /* Adjust based on your layout */
 }
 
 .race-track {
   position: relative;
-  width: 400px;
-  height: 607px;
+  width: 90%;
+  max-width: 600px;
+  height: auto;
+  aspect-ratio: 2 / 3;
   margin-bottom: 20px;
   border-left: 1px solid #000;
   border-right: 3px solid red;
@@ -72,21 +70,21 @@ export default {
 .lane-top {
   width: 100%;
   height: 1px;
-  border-top: 1px dashed #000; /* En üstte noktalı çizgi */
+  border-top: 1px dashed #000;
 }
 
 .lane {
   position: relative;
   width: 100%;
-  height: 60px;
+  height: 10%;
   border-bottom: 1px dashed #000;
   display: flex;
   align-items: center;
 }
 
 .lane-number {
-  width: 60px; /* Genişlik azaltıldı */
-  height: 40px; /* Yükseklik artırıldı */
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,9 +92,9 @@ export default {
   color: white;
   font-weight: bold;
   border: 1px solid white;
-  transform: rotate(-90deg); /* 90 derece döndürme */
+  transform: rotate(-90deg);
   position: absolute;
-  left: -50px; /* Şerit hizasında konumlandırma */
+  left: -50px;
 }
 
 .horse {
@@ -104,7 +102,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
-  animation: run linear 5s infinite; /* Hareket animasyonu */
+  animation: run linear 5s infinite;
 }
 
 @keyframes run {
@@ -113,15 +111,33 @@ export default {
 }
 
 .horse-img {
-  width: 80px; /* Daha küçük boyut */
+  width: 60px;
 }
 
 .finish-line {
   position: absolute;
   top: 0;
-  left: 100%; /* Kırmızı çizgiyi bitiş çizgisine konumlandırma */
+  left: 100%;
   width: 3px;
   height: 100%;
   background-color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .race-track {
+    width: 100%;
+    max-width: none;
+  }
+
+  .horse-img {
+    width: 40px;
+  }
+
+  .lane-number {
+    width: 30px;
+    height: 30px;
+    left: -40px;
+  }
 }
 </style>
