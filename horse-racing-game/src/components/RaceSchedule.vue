@@ -32,13 +32,16 @@
     </table>
   </div>
 </template>
-
 <script>
 export default {
   computed: {
     raceSchedule() {
       return this.$store.state.raceSchedule;
     }
+  },
+  created() {
+    // Vue bileşen oluşturulduğunda, raceSchedule'ı VueX store'dan alın
+    this.$store.dispatch('fetchRaceSchedule'); // Eğer veri alımı için bir action kullanıyorsanız
   }
 };
 </script>
@@ -47,14 +50,14 @@ export default {
 .race-schedule {
   flex: 1; /* Esneklik */
   max-width: 180px; /* Maksimum genişlik */
-  max-height: 748px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
+  max-height: 732px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
   overflow-y: auto; /* Dikey scrollbar */
   background-color: #fff; /* Arka plan rengi */
   border: 1px solid #333; /* Kenarlık */
   border-radius: 4px; /* Köşe yuvarlama */
   position: absolute; /* Mutlak pozisyon */
   top: 0; /* Alt kenara hizala */
-  margin-top: 80px;
+  margin-top: 90px;
   right: 138px; /* Sağ kenara hizala */
 }
 

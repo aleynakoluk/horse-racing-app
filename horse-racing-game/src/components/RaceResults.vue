@@ -43,11 +43,12 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .race-result {
   flex: 1; /* Esneklik */
   max-width: 180px; /* Maksimum genişlik */
-  max-height: 748px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
+  max-height: 732px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
   overflow-y: auto; /* Dikey scrollbar */
   background-color: #fff; /* Arka plan rengi */
   border: 1px solid #ddd; /* Kenarlık */
@@ -55,7 +56,7 @@ export default {
   position: absolute; /* Mutlak pozisyon */
   top: 0; /* Alt kenara hizala */
   right: 0; /* Sağ kenara hizala */
-  margin-top: 80px;
+  margin-top: 90px;
   border: 1px solid #333; /* Kenarlık */
 
 }

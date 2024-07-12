@@ -7,14 +7,19 @@
           <div v-for="lane in lanes" :key="lane" class="lane">
             <div class="lane-number">{{ lane }}</div>
             <div class="horses">
-              <div v-for="(horse, horseIndex) in horsesInLane(race, lane)" :key="horseIndex" class="horse" :style="{ left: horse.position + '%' }">
+              <div
+                v-for="(horse, horseIndex) in horsesInLane(race, lane)"
+                :key="horseIndex"
+                class="horse"
+                :style="{ left: horse.position + '%' }"
+              >
                 <img :src="horse.image" :alt="'horse ' + horse.id">
                 <span :style="{ color: horse.color }">Horse {{ horse.id }}</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="finish-line"></div> <!-- Finish çizgisi -->
+        <div class="finish-line"></div>
         <div class="finish-text">FINISH</div>
         <h5>{{ index + 1 }}.st Lap - {{ race.distance }}m</h5>
       </div>
@@ -26,92 +31,88 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'AtYarışı',
+  name: 'HorseRace',
   computed: {
     ...mapState(['raceSchedule']),
     lanes() {
-      return Array.from({ length: 10 }, (_, i) => i + 1); // 1'den 10'a kadar şerit numaraları
+      return Array.from({ length: 10 }, (_, i) => i + 1);
     }
   },
   mounted() {
     this.generateHorses();
-    this.startRace();
   },
   methods: {
-    handleScroll() {
-      const container = this.$refs.horseContainer;
-      // Calculate scroll position
-      const scrollPosition = container.scrollTop + container.clientHeight;
-      // Check if scrolled to the bottom
-      if (scrollPosition >= container.scrollHeight) {
-        // Load more horses
-        this.scrollOffset += this.horsesPerPage;
-      }
+    ...mapActions(['generateHorses', 'startRace', 'clearRaceResults']),
+    
+    // Ensure handleStartRace is defined correctly
+    handleStartRace() {
+      // Start race logic
+      this.clearRaceResults(); // Clear existing race results if needed
+      this.startRace(); // Start the race
     },
-    ...mapActions(['generateHorses', 'startRace']),
+
     horsesInLane(race, lane) {
-      return race.horses.slice((lane - 1) * 10, lane * 10); // Her şerit için atları getir
+      return race.horses.slice((lane - 1) * 10, lane * 10);
     },
-  }
+  },
+  watch: {
+    // Watch for changes in raceSchedule to start race
+    raceSchedule: {
+      handler(newVal, oldVal) {
+        if (newVal.length > oldVal.length) {
+          this.handleStartRace(); // Trigger start race when race schedule updates
+        }
+      },
+      deep: true,
+    },
+  },
 };
 </script>
 
 <style scoped>
-
-.race-results::-webkit-scrollbar {
-  width: 12px; /* Scroll bar genişliği */
-  background-color: #fff; /* Scroll bar arka plan rengi */
-  border: 1px solid #333;
-}
-
-.race-results::-webkit-scrollbar-thumb {
-  background-color:  #d8d8d8fe; /* Scroll bar rengi */
-  border-radius: 6px;
-  border: 1px solid #333;
-}
-
 .race-results {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Yarış bölümleri arası boşluğu azalttım */
+  gap: 20px;
   justify-content: flex-start;
   align-items: center;
-  width: 550px; /* Tasarımınıza uygunsa bu genişliği koruyun */
-  height: 730px; /* Tasarımınıza uygunsa bu yüksekliği koruyun */
+  width: 550px;
+  height: 730px;
   overflow-y: scroll;
   padding-left: 10px;
   border-radius: 4px;
-  overflow-x: hidden; /* Horizontal overflow'u gizle */
+  overflow-x: hidden;
 }
 
 .race-section {
-  width: 390px; /* Tasarımınıza uygunsa bu genişliği koruyun */
+  width: 390px;
   border-radius: 4px;
   padding-bottom: 70px;
 }
 
 .race-track {
   position: relative;
-  width: 390px; /* Tasarımınıza uygunsa bu genişliği ayarlayın */
-  height: 510px; /* Tasarımınıza uygunsa bu yüksekliği ayarlayın */
+  width: 390px;
+  height: 510px;
   margin-top: 20px;
 }
 
-.lane-top{
+.lane-top {
   width: 100%;
   height: 1px;
   border-top: 1px dashed #000;
 }
+
 .lane {
   position: relative;
-  width: 390px; /* Tasarımınıza uygunsa bu genişliği ayarlayın */
-  height: 50px; /* Her şerit için uygun yükseklik */
-  border-bottom: 1px dashed #000; /* Şeritler arası noktalı çizgi */
+  width: 390px;
+  height: 50px;
+  border-bottom: 1px dashed #000;
 }
 
 .lane-number {
-  width: 50px; /* Şerit numarası genişliği */
-  height: 20px; /* Şerit numarası yüksekliği */
+  width: 50px;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,10 +120,10 @@ export default {
   color: white;
   font-weight: bold;
   border: 1px solid white;
-  transform: rotate(-90deg); /* Dikey olarak 90 derece döndürme */
+  transform: rotate(-90deg);
   position: absolute;
-  left: -20px; /* Şerit numarasının pozisyonu */
-  top: 14px; /* Şerit numarasının pozisyonu */
+  left: -20px;
+  top: 14px;
 }
 
 .horses {
@@ -132,21 +133,20 @@ export default {
 }
 
 .horse {
-  position:relative;
-  height: 50px; /* At yüksekliği */
+  position: relative;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   font-weight: bold;
-  animation: run linear 1s forwards; /* Animasyon süresi */
 }
 
 .horse img {
-  width: 50px; /* At resmi genişliği */
-  height: auto; /* Oranı koru */
-  margin-right: 5px; /* Sağ boşluk */
-  object-fit: contain; /* Resmin içeriğe sığdırılması */
+  width: 50px;
+  height: auto;
+  margin-right: 5px;
+  object-fit: contain;
 }
 
 h5 {
@@ -159,25 +159,31 @@ h5 {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 0; /* Şerit numaralarının tam karşısında olacak şekilde ayarlandı */
-  width: 4px; /* Finish çizgisi kalınlığı */
+  right: 0;
+  width: 4px;
   height: 510px;
-  background-color: red; /* Finish çizgisi rengi */
+  background-color: red;
 }
+
 .finish-text {
   position: absolute;
-  left: 360px; /* Finish metni pozisyonu */
-  top: 510px; /* Finish metni pozisyonu */
-  color: red; /* Finish metni rengi */
-  font-weight: bold; /* Finish metni kalınlığı */
+  left: 360px;
+  top: 510px;
+  color: red;
+  font-weight: bold;
 }
 
 @keyframes run {
   from {
-    left: -50%; /* Başlangıç pozisyonu */
+    left: -50%;
   }
   to {
-    left: 210px; /* Bitiş pozisyonu */
+    left: 210px;
   }
+}
+
+/* At animasyonu için başlangıçta animasyonu iptal et */
+.horse {
+  animation: none;
 }
 </style>

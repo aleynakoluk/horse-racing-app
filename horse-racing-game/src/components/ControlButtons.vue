@@ -1,110 +1,80 @@
 <template>
-  <header class="header">
-    <div class="title">Horse Racing</div>
-    <div class="control-buttons">
-      <button @click="generateHorses" class="btn">GENERATE PROGRAM</button>
-      <button @click="startRace" class="btn">START/PAUSE</button>
-    </div>
-  </header>
+  <div class="header-container">
+    <header class="header">
+      <div class="left">
+        <h1>Horse Racing</h1>
+      </div>
+      <div class="right">
+        <button @click="handleGenerateScheduleClick" class="btn">GENERATE PROGRAM</button>
+        <button @click="handleStartRaceClick" class="btn">START/PAUSE</button>
+      </div>
+    </header>
+    <!-- Diğer içerikler buraya gelecek -->
+  </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   methods: {
-    generateHorses() {
-      this.$store.dispatch('generateHorses');
+    ...mapActions(['generateHorses', 'startRace']),
+    async handleGenerateScheduleClick() {
+      try {
+        await this.generateHorses();
+        console.log('Horses generated successfully!');
+      } catch (error) {
+        console.error('Error generating horses:', error);
+        alert('Error generating horses. Please try again later.');
+      }
     },
-    startRace() {
-      this.$store.dispatch('startRace');
+
+    async handleStartRaceClick() {
+      try {
+        await this.startRace();
+        // Yarış başarıyla tamamlandıktan sonra yapılacak işlemler
+      } catch (error) {
+        console.error('Error starting race:', error);
+        // Hata durumunda yapılacak işlemler
+      }
     },
   },
 };
 </script>
 
 <style scoped>
+.header-container {
+  background-color: #f08080; /* Pembe arka plan */
+  width: 100%;
+}
 
 .header {
+  position: sticky; /* Yapışkan pozisyon */
+  top: 0; /* Ekranın en üstüne yapıştır */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  background-color: #FF9E8F;
-  padding: 10px;
-  width: 100vw; /* Sayfanın tam genişliğini alacak şekilde ayarlandı */
+  height: 93px; /* Header yüksekliği */
+  padding: 0 20px; /* Sol ve sağ padding */
 }
 
-.title {
-  font-size: 24px;
-  font-weight: bold;
+.left h1 {
+  margin: 0;
   color: #333;
-  width: 100%; /* Başlık genişliğini tam ekran genişliği olarak ayarladı */
 }
 
-.control-buttons {
+.right {
   display: flex;
-  align-items: center;
-  width: 100%; /* Kontrol düğmelerinin genişliğini tam ekran genişliği olarak ayarladı */
-  justify-content: flex-end; /* Sağa doğru hizalama */
+  gap: 10px;
 }
 
 .btn {
-  margin: 0 10px;
-  padding: 10px 20px;
-  color: black;
-  background-color:  #d8d8d8fe;
-  border: none;
-  border-radius: 5px;
+  padding: 10px 50px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #969393;
-}
-
-/* Tablet ve daha büyük cihazlar için */
-@media (min-width: 600px) {
-  .header {
-    height: 60px;
-  }
-
-  .title {
-    font-size: 28px;
-  }
-
-  .btn {
-    margin: 0 15px;
-    padding: 10px 25px;
-    font-size: 16px;
-  }
-}
-
-/* Mobil cihazlar için */
-@media (max-width: 599px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    height: auto;
-  }
-
-  .title {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  .control-buttons {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    justify-content: flex-start; /* Mobilde düğmelerin üst üste gelmesi için */
-    margin-right: 5px;
-  }
-
-  .btn {
-    margin: 5px 0;
-    width: 100%;
-    text-align: right; /* Mobilde düğmeleri sağa doğru hizala */
-  }
+  background-color: #d8d8d8fe;
+  color: black;
+  border: 1px solid #333;
+  border-radius: 4px;
 }
 </style>
+
