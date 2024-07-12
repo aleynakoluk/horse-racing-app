@@ -37,8 +37,8 @@ body {
 }
 
 #app {
-  font-family: 'Arial, sans-serif';
-  background: rgb(176, 176, 176);
+  font-family: 'Arial Narrow', Arial, sans-serif; 
+  background:  #d8d8d8fe;
   display: flex;
   flex-direction: row; /* Bileşenleri yatay olarak sırala */
   overflow: hidden; /* İçeriğin taşmasını engeller */

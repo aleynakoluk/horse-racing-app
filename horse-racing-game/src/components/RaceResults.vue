@@ -61,11 +61,13 @@ export default {
 .race-result::-webkit-scrollbar {
   width: 12px; /* Scroll bar genişliği */
   background-color: #fff; /* Scroll bar arka plan rengi */
+  border: 1px solid #333;
 }
 
 .race-result::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scroll bar rengi */
+  background-color:  #d8d8d8fe; /* Scroll bar rengi */
   border-radius: 6px;
+  border: 1px solid #333;
 }
 
 .table-title {

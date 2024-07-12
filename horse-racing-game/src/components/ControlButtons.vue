@@ -2,8 +2,8 @@
   <header class="header">
     <div class="title">Horse Racing</div>
     <div class="control-buttons">
-      <button @click="generateHorses" class="btn">Generate Horses</button>
-      <button @click="startRace" class="btn">Start Race</button>
+      <button @click="generateHorses" class="btn">GENERATE PROGRAM</button>
+      <button @click="startRace" class="btn">START/PAUSE</button>
     </div>
   </header>
 </template>
@@ -51,7 +51,7 @@ export default {
   margin: 0 10px;
   padding: 10px 20px;
   color: black;
-  background-color: grey;
+  background-color:  #d8d8d8fe;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -60,7 +60,7 @@ export default {
 }
 
 .btn:hover {
-  background-color: #666;
+  background-color: #969393;
 }
 
 /* Tablet ve daha büyük cihazlar için */

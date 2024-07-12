@@ -1,90 +1,117 @@
 <template>
-  <div class="race-track-container">
-    <div class="race-track">
-      <div class="lane-top"></div>
-      <div v-for="lane in lanes" :key="lane" class="lane">
-        <div class="lane-number">{{ lane }}</div>
-        <div v-for="(horse, horseIndex) in horsesInLane(lane)" :key="horse.id" class="horse" :style="{ left: horse.position + '%', animationDelay: calculateAnimationDelay(horseIndex) + 's' }">
-          <img :src="require(`@/assets/horse${horse.id}.png`)" alt="Horse" class="horse-img" :style="{ filter: 'hue-rotate(' + horse.hueRotate + 'deg)' }" />
+  <div class="race-results">
+    <div v-for="(race, index) in raceSchedule" :key="index" class="race-section">
+      <div class="race-track">
+        <div class="lanes">
+          <div class="lane-top"></div>
+          <div v-for="lane in lanes" :key="lane" class="lane">
+            <div class="lane-number">{{ lane }}</div>
+            <div class="horses">
+              <div v-for="(horse, horseIndex) in horsesInLane(race, lane)" :key="horseIndex" class="horse" :style="{ left: horse.position + '%' }">
+                <img :src="horse.image" :alt="'horse ' + horse.id">
+                <span>Horse {{ horse.id }}</span>
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="finish-line"></div> <!-- Finish çizgisi -->
+        <div class="finish-text">FINISH</div>
+        <h5>{{ index + 1 }}.st Lap - {{ race.distance }}m</h5>
       </div>
-      <div class="finish-line">FINISH</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
-  name: 'HorseRace',
+  name: 'AtYarışı',
   computed: {
-    horses() {
-      return this.$store.state.horses;
-    },
-    winner() {
-      return this.$store.state.raceResults.length > 0 ? this.$store.state.raceResults[0].horseId : null;
-    },
+    ...mapState(['raceSchedule']),
     lanes() {
-      return Array.from({ length: 10 }, (_, i) => i + 1);
-    }
-  },
-  methods: {
-    horsesInLane(lane) {
-      return this.horses.filter(horse => horse.id === lane);
-    },
-    calculateAnimationDelay(index) {
-      return index * 0.5; // Example calculation for animation delay
-    },
-    requireHorseImage(horseId) {
-      return require(`@/assets/horse${horseId}.png`);
+      return Array.from({ length: 10 }, (_, i) => i + 1); // 1'den 10'a kadar şerit numaraları
     }
   },
   mounted() {
-    this.$store.dispatch('generateHorses');
-    setTimeout(() => {
-      this.$store.dispatch('startRace');
-    }, 1000);
+    this.generateHorses();
+    this.startRace();
+  },
+  methods: {
+    handleScroll() {
+      const container = this.$refs.horseContainer;
+      // Calculate scroll position
+      const scrollPosition = container.scrollTop + container.clientHeight;
+      // Check if scrolled to the bottom
+      if (scrollPosition >= container.scrollHeight) {
+        // Load more horses
+        this.scrollOffset += this.horsesPerPage;
+      }
+    },
+    ...mapActions(['generateHorses', 'startRace']),
+    horsesInLane(race, lane) {
+      return race.horses.slice((lane - 1) * 10, lane * 10); // Her şerit için atları getir
+    },
   }
 };
 </script>
 
 <style scoped>
-.race-track-container {
+
+.race-results::-webkit-scrollbar {
+  width: 12px; /* Scroll bar genişliği */
+  background-color: #fff; /* Scroll bar arka plan rengi */
+  border: 1px solid #333;
+}
+
+.race-results::-webkit-scrollbar-thumb {
+  background-color:  #d8d8d8fe; /* Scroll bar rengi */
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.race-results {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px; /* Yarış bölümleri arası boşluğu azalttım */
+  justify-content: flex-start;
   align-items: center;
-  height: 100vh;
-  margin-top: -830px; /* Adjust based on your layout */
+  width: 550px; /* Tasarımınıza uygunsa bu genişliği koruyun */
+  height: 800px; /* Tasarımınıza uygunsa bu yüksekliği koruyun */
+  overflow-y: scroll;
+  padding-left: 10px;
+  border-radius: 4px;
+  overflow-x: hidden; /* Horizontal overflow'u gizle */
+}
+
+.race-section {
+  width: 390px; /* Tasarımınıza uygunsa bu genişliği koruyun */
+  border-radius: 4px;
+  padding-bottom: 70px;
 }
 
 .race-track {
   position: relative;
-  width: 90%;
-  max-width: 600px;
-  height: auto;
-  aspect-ratio: 2 / 3;
-  margin-bottom: 20px;
-  border-left: 1px solid #000;
-  border-right: 3px solid red;
+  width: 390px; /* Tasarımınıza uygunsa bu genişliği ayarlayın */
+  height: 510px; /* Tasarımınıza uygunsa bu yüksekliği ayarlayın */
+  margin-top: 20px;
 }
 
-.lane-top {
+.lane-top{
   width: 100%;
   height: 1px;
   border-top: 1px dashed #000;
 }
-
 .lane {
   position: relative;
-  width: 100%;
-  height: 10%;
-  border-bottom: 1px dashed #000;
-  display: flex;
-  align-items: center;
+  width: 390px; /* Tasarımınıza uygunsa bu genişliği ayarlayın */
+  height: 50px; /* Her şerit için uygun yükseklik */
+  border-bottom: 1px dashed #000; /* Şeritler arası noktalı çizgi */
 }
 
 .lane-number {
-  width: 40px;
-  height: 40px;
+  width: 50px; /* Şerit numarası genişliği */
+  height: 20px; /* Şerit numarası yüksekliği */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,52 +119,65 @@ export default {
   color: white;
   font-weight: bold;
   border: 1px solid white;
-  transform: rotate(-90deg);
+  transform: rotate(-90deg); /* Dikey olarak 90 derece döndürme */
   position: absolute;
-  left: -50px;
+  left: -20px; /* Şerit numarasının pozisyonu */
+  top: 14px; /* Şerit numarasının pozisyonu */
+}
+
+.horses {
+  position: relative;
+  left: 0;
+  right: 0;
 }
 
 .horse {
-  position: absolute;
-  height: 100%;
+  position:relative;
+  height: 50px; /* At yüksekliği */
   display: flex;
+  justify-content: center;
   align-items: center;
-  animation: run linear 5s infinite;
+  color: white;
+  font-weight: bold;
+  animation: run linear 1s forwards; /* Animasyon süresi */
 }
 
-@keyframes run {
-  from { left: 0%; }
-  to { left: 100%; }
+.horse img {
+  width: 50px; /* At resmi genişliği */
+  height: auto; /* Oranı koru */
+  margin-right: 5px; /* Sağ boşluk */
+  object-fit: contain; /* Resmin içeriğe sığdırılması */
 }
 
-.horse-img {
-  width: 60px;
+h5 {
+  text-align: center;
+  color: red;
+  padding-bottom: 50px;
 }
 
 .finish-line {
   position: absolute;
   top: 0;
-  left: 100%;
-  width: 3px;
-  height: 100%;
-  background-color: red;
+  bottom: 0;
+  right: 0; /* Şerit numaralarının tam karşısında olacak şekilde ayarlandı */
+  width: 4px; /* Finish çizgisi kalınlığı */
+  height: 510px;
+  background-color: red; /* Finish çizgisi rengi */
+}
+.finish-text {
+  position: absolute;
+  left: 360px; /* Finish metni pozisyonu */
+  top: 510px; /* Finish metni pozisyonu */
+  color: red; /* Finish metni rengi */
+  font-weight: bold; /* Finish metni kalınlığı */
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-  .race-track {
-    width: 100%;
-    max-width: none;
+@keyframes run {
+  from {
+    left: -50%; /* Başlangıç pozisyonu */
   }
-
-  .horse-img {
-    width: 40px;
-  }
-
-  .lane-number {
-    width: 30px;
-    height: 30px;
-    left: -40px;
+  to {
+    left: 210px; /* Bitiş pozisyonu */
   }
 }
 </style>

@@ -45,16 +45,6 @@ export default {
     }
   },
   methods: {
-    handleScroll() {
-      const container = this.$refs.horseContainer;
-      // Calculate scroll position
-      const scrollPosition = container.scrollTop + container.clientHeight;
-      // Check if scrolled to the bottom
-      if (scrollPosition >= container.scrollHeight) {
-        // Load more horses
-        this.scrollOffset += this.horsesPerPage;
-      }
-    },
     fetchInitialHorses() {
       this.$store.dispatch('generateHorses');
     }
@@ -68,8 +58,6 @@ export default {
 <style scoped>
 .container {
   text-align: left;
-  font-family: 'Arial, sans-serif';
-  display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -81,19 +69,18 @@ export default {
   overflow-x: hidden; /* X ekseninde scroll olmaması için */
 }
 
-.container::-webkit-scrollbar {
+.horse-list::-webkit-scrollbar {
   width: 12px; /* Scroll bar genişliği */
+  background-color: white;
+  border: 1px solid #333;
 }
 
-.container::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scroll bar rengi */
+.horse-list::-webkit-scrollbar-thumb {
+  background-color: #d8d8d8fe; /* Scroll bar rengi */
   border-radius: 6px;
-  opacity: 1; /* Scroll bar her zaman görünür */
+  border: 1px solid #333;
 }
 
-.container:hover::-webkit-scrollbar-thumb {
-  background-color: transparent; /* Fare ile üzerine gelince kaybolur */
-}
 
 .horse-list {
   overflow-y: scroll; /* Dikey scrollbar */
@@ -103,16 +90,6 @@ export default {
   border-radius: 4px;
   width: 100%;
   max-height: 100%; /* Container'ın yüksekliğine uygun */
-}
-
-.horse-list::-webkit-scrollbar {
-  width: 12px; /* Scroll bar genişliği */
-}
-
-.horse-list::-webkit-scrollbar-thumb {
-  background-color: #888; /* Scroll bar rengi */
-  border-radius: 6px;
-  opacity: 1; /* Scroll bar her zaman görünür */
 }
 
 .table-title {

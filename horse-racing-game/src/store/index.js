@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 
+// Atları oluşturacak fonksiyon
 function generateHorses() {
   const horses = [];
   for (let i = 1; i <= 20; i++) {
@@ -14,7 +15,7 @@ function generateHorses() {
   return horses;
 }
 
-
+// Rastgele renk oluşturacak fonksiyon
 function getRandomColor() {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -24,18 +25,23 @@ function getRandomColor() {
   return color;
 }
 
+// Yarış programını oluşturacak fonksiyon
 function generateRaceSchedule(horses) {
   const distances = [1200, 1400, 1600, 1800, 2000, 2200];
   const schedule = distances.map(distance => {
     const selectedHorses = [];
     const horseIds = new Set();
-    while (selectedHorses.length < 10) {
-      const horse = horses[Math.floor(Math.random() * horses.length)];
-      if (!horseIds.has(horse.id)) {
-        selectedHorses.push(horse);
-        horseIds.add(horse.id);
-      }
+
+    // 10 at seçmek için döngü
+    for (let i = 1; i <= 10; i++) {
+      let horse;
+      do {
+        horse = horses[Math.floor(Math.random() * horses.length)];
+      } while (horseIds.has(horse.id));
+      selectedHorses.push(horse);
+      horseIds.add(horse.id);
     }
+
     return {
       distance,
       horses: selectedHorses,
@@ -43,6 +49,8 @@ function generateRaceSchedule(horses) {
   });
   return schedule;
 }
+
+
 
 export default createStore({
   state: {
@@ -79,7 +87,7 @@ export default createStore({
       commit('clearRaceResults');
       const schedule = generateRaceSchedule(state.horses);
       commit('setRaceSchedule', schedule);
-  
+
       schedule.forEach((race, index) => {
         setTimeout(() => {
           race.horses.forEach(horse => {
@@ -92,5 +100,5 @@ export default createStore({
         }, index * 5000); // Her yarışı 5 saniye arayla başlatır
       });
     },
-  },  
+  },
 });
