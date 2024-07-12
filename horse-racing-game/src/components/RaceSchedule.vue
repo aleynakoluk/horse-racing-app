@@ -50,12 +50,12 @@ export default {
   max-height: 748px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
   overflow-y: auto; /* Dikey scrollbar */
   background-color: #fff; /* Arka plan rengi */
-  border: 1px solid #ddd; /* Kenarlık */
+  border: 1px solid #333; /* Kenarlık */
   border-radius: 4px; /* Köşe yuvarlama */
   position: absolute; /* Mutlak pozisyon */
   top: 0; /* Alt kenara hizala */
   margin-top: 80px;
-  right: 155px; /* Sağ kenara hizala */
+  right: 138px; /* Sağ kenara hizala */
 }
 
 .race-schedule::-webkit-scrollbar {
@@ -73,6 +73,7 @@ export default {
 .table-title {
   background-color: blue; /* Arka plan rengi */
   color: black;
+  border: 1px solid #333;
   text-align: center;
   padding: 9px;
   border-top-left-radius: 4px;

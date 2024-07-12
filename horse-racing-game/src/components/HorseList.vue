@@ -4,10 +4,11 @@
       <table>
         <thead>
           <tr>
-            <th colspan="3" class="table-title">Horse List (1-20)</th>
-          </tr>
+            <th colspan="4" class="table-title">Horse List (1-20)</th>
+          </tr>       
           <tr>
-            <th>Number</th>
+            <th>ID</th>
+            <th>Name</th>
             <th>Condition</th>
             <th>Color</th>
           </tr>
@@ -15,6 +16,7 @@
         <tbody>
           <tr v-for="(horse, index) in displayedHorses" :key="index">
             <td>{{ horse.id }}</td>
+            <td>{{ horse.name }}</td>
             <td>{{ horse.condition }}</td>
             <td>
               <span :style="{ color: horse.color }">
@@ -33,12 +35,16 @@ export default {
   data() {
     return {
       horsesPerPage: 20,
-      scrollOffset: 0
+      scrollOffset: 0,
+      names: ["Ekselans", "Herkül","Prens", "Görkem", "Karamel","Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius","Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz","Prenses"]
     };
   },
   computed: {
     horses() {
-      return this.$store.state.horses;
+      return this.$store.state.horses.map((horse, index) => ({
+        ...horse,
+        name: this.names[index % this.names.length]
+      }));
     },
     displayedHorses() {
       return this.horses.slice(this.scrollOffset, this.scrollOffset + this.horsesPerPage);
@@ -47,6 +53,9 @@ export default {
   methods: {
     fetchInitialHorses() {
       this.$store.dispatch('generateHorses');
+    },
+    handleScroll() {
+      // Handle scroll logic if needed
     }
   },
   mounted() {
@@ -62,46 +71,49 @@ export default {
   align-items: flex-start;
   justify-content: center;
   padding: 10px;
-  width: 100%;
-  max-width: 100%;
+  width: 280px;
+  max-width: 200px;
   height: 400px;
-  overflow-y: scroll; /* Scroll bar her zaman görünür */
-  overflow-x: hidden; /* X ekseninde scroll olmaması için */
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .horse-list::-webkit-scrollbar {
-  width: 12px; /* Scroll bar genişliği */
+  width: 12px;
   background-color: white;
   border: 1px solid #333;
 }
 
 .horse-list::-webkit-scrollbar-thumb {
-  background-color: #d8d8d8fe; /* Scroll bar rengi */
+  background-color: #d8d8d8fe;
   border-radius: 6px;
   border: 1px solid #333;
 }
 
-
 .horse-list {
-  overflow-y: scroll; /* Dikey scrollbar */
-  overflow-x: hidden; /* X ekseninde scroll olmaması için */
-  background-color: #f8f9fa; /* Arka plan rengi */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #f8f9fa;
   border: 1px solid #ddd;
   border-radius: 4px;
   width: 100%;
-  max-height: 100%; /* Container'ın yüksekliğine uygun */
+  max-height: 100%;
+  border: 1px solid #333; /* Kenarlık */
+
 }
 
 .table-title {
-  background-color: yellow; /* Başlık arka plan rengi */
-  color: #333;
+  background-color: yellow;
+  color: black;
+  border: 1px solid #333;
   text-align: center;
-  padding: 8px 16px;
+  padding: 9px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  position: sticky; /* Sticky pozisyon */
-  top: 0; /* En üstte sabitle */
-  z-index: 1; /* Z indeksi */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-size: 20px;
 }
 
 table {
@@ -118,14 +130,14 @@ th, td {
 th {
   background-color: #f2f2f2;
   border-bottom: 1px solid #ddd;
+  width: 25%;
 }
 
-/* Tablet ve daha büyük cihazlar için */
 @media (min-width: 600px) {
   .container {
     max-width: 300px;
     height: 720px;
-    padding-left: 20px; /* Sol taraf için 20px boşluk bırak */
+    padding-left: 20px;
   }
 
   .table-title {
@@ -134,11 +146,10 @@ th {
 
   th, td {
     font-size: 16px;
-    padding: 12px;
+    padding: 7px;
   }
 }
 
-/* Mobil cihazlar için */
 @media (max-width: 599px) {
   .container {
     width: 100%;

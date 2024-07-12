@@ -25,6 +25,9 @@ function getRandomColor() {
   return color;
 }
 
+// Yerel depolama anahtarları
+const LOCAL_STORAGE_KEY = 'horse-racing-game';
+
 // Yarış programını oluşturacak fonksiyon
 function generateRaceSchedule(horses) {
   const distances = [1200, 1400, 1600, 1800, 2000, 2200];
@@ -49,8 +52,6 @@ function generateRaceSchedule(horses) {
   });
   return schedule;
 }
-
-
 
 export default createStore({
   state: {
@@ -80,8 +81,17 @@ export default createStore({
   },
   actions: {
     generateHorses({ commit }) {
-      const horses = generateHorses();
-      commit('setHorses', horses);
+      // Önce yerel depolamadan atları al
+      const storedHorses = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+      if (storedHorses) {
+        commit('setHorses', storedHorses);
+      } else {
+        // Yerel depolamada atlar yoksa yeni atlar oluştur
+        const horses = generateHorses();
+        commit('setHorses', horses);
+        // Oluşturulan atları yerel depolamaya kaydet
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(horses));
+      }
     },
     startRace({ commit, state }) {
       commit('clearRaceResults');

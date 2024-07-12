@@ -9,7 +9,7 @@
             <div class="horses">
               <div v-for="(horse, horseIndex) in horsesInLane(race, lane)" :key="horseIndex" class="horse" :style="{ left: horse.position + '%' }">
                 <img :src="horse.image" :alt="'horse ' + horse.id">
-                <span>Horse {{ horse.id }}</span>
+                <span :style="{ color: horse.color }">Horse {{ horse.id }}</span>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   width: 550px; /* Tasarımınıza uygunsa bu genişliği koruyun */
-  height: 800px; /* Tasarımınıza uygunsa bu yüksekliği koruyun */
+  height: 730px; /* Tasarımınıza uygunsa bu yüksekliği koruyun */
   overflow-y: scroll;
   padding-left: 10px;
   border-radius: 4px;

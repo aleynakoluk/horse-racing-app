@@ -56,6 +56,8 @@ export default {
   top: 0; /* Alt kenara hizala */
   right: 0; /* Sağ kenara hizala */
   margin-top: 80px;
+  border: 1px solid #333; /* Kenarlık */
+
 }
 
 .race-result::-webkit-scrollbar {
@@ -73,6 +75,7 @@ export default {
 .table-title {
   background-color: rgb(90, 220, 90); /* Arka plan rengi */
   color: black;
+  border: 1px solid #333;
   text-align: center;
   padding: 8px;
   border-top-left-radius: 4px;
