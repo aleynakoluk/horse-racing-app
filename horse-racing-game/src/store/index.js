@@ -26,7 +26,6 @@ export default createStore({
       });
     },
   },
-  
   actions: {
     async generateHorses({ commit }) {
       let storedHorses = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
@@ -38,31 +37,13 @@ export default createStore({
       const schedule = generateRaceSchedule(storedHorses);
       commit('setRaceSchedule', schedule);
     },
-
-    async startRace({ commit, state }) {
-      commit('resetHorsePositions'); // Atların pozisyonlarını sıfırla
-      const schedule = generateRaceSchedule(state.horses);
-      commit('setRaceSchedule', schedule);
-
-      await new Promise(resolve => {
-        schedule.forEach((race, index) => {
-          setTimeout(() => {
-            race.horses.forEach(horse => {
-              const newPosition = horse.position + Math.random() * 10;
-              commit('updateHorsePosition', { horseId: horse.id, position: newPosition });
-            });
-            if (index === schedule.length - 1) {
-              resolve(); // Yarışlar tamamlandığında promise'ı resolve et
-            }
-          }, index * 5000);
-        });
-      });
-
-      setTimeout(() => {
-        commit('resetHorsePositions'); // Atların yeniden başa dönmesi için pozisyonları sıfırla
-      }, schedule.length * 5000); // Yarışların tamamının bitmesini bekleyip atları sıfırla
+    async startRace({ commit }) {
+      commit('resetHorsePositions');
+      // Yarış programını yeniden oluşturmak yerine mevcut programı kullan
+      // const schedule = generateRaceSchedule(state.horses);
+      // commit('setRaceSchedule', schedule);
     },
-  }
+  },
 });
 
 function generateHorses() {

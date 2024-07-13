@@ -22,10 +22,11 @@ export default {
     async handleGenerateScheduleClick() {
       try {
         await this.generateHorses();
-        console.log('Horses generated successfully!');
+        await this.startRace(); // Yarış programını da başlat
+        console.log('Horses generated and race started successfully!');
       } catch (error) {
-        console.error('Error generating horses:', error);
-        alert('Error generating horses. Please try again later.');
+        console.error('Error generating horses and starting race:', error);
+        alert('Error generating horses and starting race. Please try again later.');
       }
     },
 
@@ -38,6 +39,15 @@ export default {
         // Hata durumunda yapılacak işlemler
       }
     },
+  },
+  async mounted() {
+    // Sayfa yüklendiğinde atların konumunu ayarlamak için
+    try {
+      await this.generateHorses();
+      await this.startRace();
+    } catch (error) {
+      console.error('Error initializing horses and race:', error);
+    }
   },
 };
 </script>
@@ -77,4 +87,3 @@ export default {
   border-radius: 4px;
 }
 </style>
-

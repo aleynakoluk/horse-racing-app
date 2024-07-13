@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'HorseRace',
@@ -42,32 +42,14 @@ export default {
     this.generateHorses();
   },
   methods: {
-    ...mapActions(['generateHorses', 'startRace', 'clearRaceResults']),
-    
-    // Ensure handleStartRace is defined correctly
-    handleStartRace() {
-      // Start race logic
-      this.clearRaceResults(); // Clear existing race results if needed
-      this.startRace(); // Start the race
-    },
 
     horsesInLane(race, lane) {
       return race.horses.slice((lane - 1) * 10, lane * 10);
     },
   },
-  watch: {
-    // Watch for changes in raceSchedule to start race
-    raceSchedule: {
-      handler(newVal, oldVal) {
-        if (newVal.length > oldVal.length) {
-          this.handleStartRace(); // Trigger start race when race schedule updates
-        }
-      },
-      deep: true,
-    },
-  },
 };
 </script>
+
 
 <style scoped>
 .race-results {
@@ -105,9 +87,13 @@ export default {
 
 .lane {
   position: relative;
-  width: 390px;
+  width: 100%; /* Tam genişlikte olması için */
   height: 50px;
   border-bottom: 1px dashed #000;
+  display: flex; /* Flex container olarak ayarla */
+  justify-content: flex-start; /* İçeriği soldan başlat */
+  flex-direction: column; /* Atları alt alta sırala */
+  align-items: flex-start; /* Atları şeritlerin başında hizala */
 }
 
 .lane-number {
@@ -123,13 +109,15 @@ export default {
   transform: rotate(-90deg);
   position: absolute;
   left: -20px;
-  top: 14px;
+  top: 13px; /* Lane number'ların en üstte başlaması için */
 }
 
 .horses {
   position: relative;
   left: 0;
   right: 0;
+  display: flex; /* Atları flex item olarak ayarla */
+  flex-direction: column; /* Atları alt alta sırala */
 }
 
 .horse {
