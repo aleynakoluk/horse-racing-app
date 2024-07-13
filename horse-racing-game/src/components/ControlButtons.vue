@@ -77,7 +77,7 @@ export default {
       console.log('Race started.');
     },
     calculateSpeed(condition) {
-      return Math.round(condition / 10); // Koşul değeri / 10
+      return Math.round(condition / 2); // Koşul değeri / 10
     },
   },
   async mounted() {

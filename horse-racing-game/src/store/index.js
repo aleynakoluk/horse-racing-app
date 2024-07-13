@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 
-const LOCAL_STORAGE_KEY = 'horse-racing-gamess';
+const LOCAL_STORAGE_KEY = 'horse-racing-storage';
 
 export default createStore({
   state: {
@@ -124,7 +124,7 @@ function generateRaceSchedule(horses) {
 
 // Function to calculate horse speed based on condition
 function calculateSpeed(condition) {
-  return Math.round(condition / 1);
+  return Math.round(condition / 2);
 }
 
 // Function to generate random color
