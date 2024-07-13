@@ -13,8 +13,8 @@
                 class="horse"
                 :style="{ left: horse.position + '%' }"
               >
-                <img :src="horse.image" :alt="'horse ' + horse.id">
-                <span :style="{ color: horse.color }">Horse {{ horse.id }}</span>
+                <img :src="horse.image" :alt="'horse ' + getHorseName(horse.id)">
+                <span :style="{ color: horse.color }">{{ getHorseName(horse.id) }}</span>
               </div>
             </div>
           </div>
@@ -39,17 +39,19 @@ export default {
     }
   },
   mounted() {
-    this.generateHorses();
+    this.$store.dispatch('generateHorses'); // Dispatch action to generate horses
   },
   methods: {
-
     horsesInLane(race, lane) {
       return race.horses.slice((lane - 1) * 10, lane * 10);
     },
-  },
+    getHorseName(horseId) {
+      const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
+      return names[(horseId - 1) % names.length];
+    }
+  }
 };
 </script>
-
 
 <style scoped>
 .race-results {
@@ -87,13 +89,13 @@ export default {
 
 .lane {
   position: relative;
-  width: 100%; /* Tam genişlikte olması için */
+  width: 100%;
   height: 50px;
   border-bottom: 1px dashed #000;
-  display: flex; /* Flex container olarak ayarla */
-  justify-content: flex-start; /* İçeriği soldan başlat */
-  flex-direction: column; /* Atları alt alta sırala */
-  align-items: flex-start; /* Atları şeritlerin başında hizala */
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .lane-number {
@@ -109,14 +111,14 @@ export default {
   transform: rotate(-90deg);
   position: absolute;
   left: -20px;
-  top: 13px; /* Lane number'ların en üstte başlaması için */
+  top: 13px;
 }
 
 .horses {
   position: relative;
   left: 0;
-  display: flex; /* Atları flex item olarak ayarla */
-  flex-direction: column; /* Atları alt alta sırala */
+  display: flex;
+  flex-direction: column;
 }
 
 .horse {
@@ -169,7 +171,6 @@ h5 {
   }
 }
 
-/* At animasyonu için başlangıçta animasyonu iptal et */
 .horse {
   animation: none;
 }

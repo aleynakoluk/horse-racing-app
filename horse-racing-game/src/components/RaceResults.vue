@@ -15,13 +15,13 @@
                 <thead>
                   <tr>
                     <th>Position</th>
-                    <th>Horse ID</th>
+                    <th>Name</th> <!-- Değişiklik: Horse Name olarak güncellendi -->
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(horse, horseIndex) in race.horses.slice(0, 20).sort((a, b) => b.condition - a.condition)" :key="horseIndex">
                     <td>{{ horseIndex + 1 }}</td>
-                    <td :style="{ color: horse.color }">Horse {{ horse.id }}</td>
+                    <td >{{ getHorseName(horse.id) }}</td> <!-- getHorseName metodu kullanıldı -->
                   </tr>
                 </tbody>
               </table>
@@ -39,42 +39,46 @@ export default {
     raceSchedule() {
       return this.$store.state.raceSchedule;
     }
+  },
+  methods: {
+    getHorseName(horseId) {
+      const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
+      return names[(horseId - 1) % names.length];
+    }
   }
 };
 </script>
 
-
 <style scoped>
 .race-result {
-  flex: 1; /* Esneklik */
-  max-width: 180px; /* Maksimum genişlik */
-  max-height: 732px; /* Sayfanın yüksekliğinden az bir maksimum yükseklik */
-  overflow-y: auto; /* Dikey scrollbar */
-  background-color: #fff; /* Arka plan rengi */
-  border: 1px solid #ddd; /* Kenarlık */
-  border-radius: 4px; /* Köşe yuvarlama */
-  position: absolute; /* Mutlak pozisyon */
-  top: 0; /* Alt kenara hizala */
-  right: 0; /* Sağ kenara hizala */
+  flex: 1;
+  max-width: 180px;
+  max-height: 732px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  position: absolute;
+  top: 0;
+  right: 0;
   margin-top: 90px;
-  border: 1px solid #333; /* Kenarlık */
-
+  border: 1px solid #333;
 }
 
 .race-result::-webkit-scrollbar {
-  width: 12px; /* Scroll bar genişliği */
-  background-color: #fff; /* Scroll bar arka plan rengi */
+  width: 12px;
+  background-color: #fff;
   border: 1px solid #333;
 }
 
 .race-result::-webkit-scrollbar-thumb {
-  background-color:  #d8d8d8fe; /* Scroll bar rengi */
+  background-color: #d8d8d8fe;
   border-radius: 6px;
   border: 1px solid #333;
 }
 
 .table-title {
-  background-color: rgb(90, 220, 90); /* Arka plan rengi */
+  background-color: rgb(90, 220, 90);
   color: black;
   border: 1px solid #333;
   text-align: center;
@@ -84,24 +88,24 @@ export default {
 }
 
 .race-info {
-  text-align: center; /* Yarış bilgilerini ortala */
+  text-align: center;
 }
 
 .table-container {
-  max-height: 748px; /* Maksimum yükseklik */
-  overflow-y: auto; /* Dikey scrollbar */
-  text-align: right; /* İçeriği sağa hizala */
+  max-height: 748px;
+  overflow-y: auto;
+  text-align: right;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff; /* Tablo arka plan rengi */
+  background-color: #fff;
   text-align: center;
 }
 
 th, td {
-  text-align: center; /* İçerikleri merkezi hizalar */
+  text-align: center;
   border: 1px solid #ddd;
 }
 
@@ -110,11 +114,11 @@ th {
 }
 
 h3 {
-  background-color: #f08080; /* Arka plan rengi */
+  background-color: #f08080;
   color: black;
   margin: 0;
-  position: sticky; /* Sticky pozisyon */
-  top: 0; /* En üstte sabitle */
-  z-index: 1; /* Z indeksi */
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 </style>

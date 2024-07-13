@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 
-const LOCAL_STORAGE_KEY = 'horse-racing-storage';
+const LOCAL_STORAGE_KEY = 'storage';
+const COLOR_STORAGE_KEY = 'horses-colors';
 
 export default createStore({
   state: {
@@ -39,9 +40,12 @@ export default createStore({
   actions: {
     async generateHorses({ commit }) {
       let storedHorses = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-      if (!storedHorses) {
+      let storedColors = JSON.parse(localStorage.getItem(COLOR_STORAGE_KEY));
+      
+      if (!storedHorses || !storedColors) {
         storedHorses = generateHorses();
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedHorses));
+        localStorage.setItem(COLOR_STORAGE_KEY, JSON.stringify(storedHorses.map(horse => horse.color)));
       }
       commit('setHorses', storedHorses);
       const schedule = generateRaceSchedule(storedHorses);
@@ -86,10 +90,16 @@ export default createStore({
 // Function to generate initial horses
 function generateHorses() {
   const horses = [];
+  const colors = [
+    'Red', 'Green', 'Blue', 'Yellow', 'Purple', 'Orange', 'Pink', 'Brown', 'Cyan', 'Magenta',
+    'Lime', 'Olive', 'Navy', 'Teal', 'Maroon', 'Silver', 'Gold', 'Indigo', 'Violet', 'Crimson'
+  ];
+
   for (let i = 1; i <= 20; i++) {
+    const color = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
     horses.push({
       id: i,
-      color: getRandomColor(),
+      color: color,
       condition: Math.floor(Math.random() * 100) + 1, // 1 ile 100 arası rastgele bir değer oluştur
       position: 0,
       image: require(`@/assets/horse${i}.png`),
@@ -125,14 +135,4 @@ function generateRaceSchedule(horses) {
 // Function to calculate horse speed based on condition
 function calculateSpeed(condition) {
   return Math.round(condition / 2);
-}
-
-// Function to generate random color
-function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
 }

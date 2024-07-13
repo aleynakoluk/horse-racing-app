@@ -4,10 +4,9 @@
       <table>
         <thead>
           <tr>
-            <th colspan="4" class="table-title">Horse List (1-20)</th>
+            <th colspan="3" class="table-title">Horse List (1-20)</th>
           </tr>       
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Condition</th>
             <th>Color</th>
@@ -15,11 +14,10 @@
         </thead>
         <tbody>
           <tr v-for="(horse, index) in displayedHorses" :key="index">
-            <td>{{ horse.id }}</td>
-            <td>{{ horse.name }}</td>
+            <td>{{ names[index % names.length] }}</td> <!-- Use names array cyclically -->
             <td>{{ horse.condition }}</td>
             <td>
-              <span :style="{ color: horse.color }">
+              <span>
                 {{ horse.color }}
               </span>
             </td>
@@ -130,7 +128,7 @@ th, td {
 th {
   background-color: #f2f2f2;
   border-bottom: 1px solid #ddd;
-  width: 25%;
+  width: 33.33%;
 }
 
 @media (min-width: 600px) {
