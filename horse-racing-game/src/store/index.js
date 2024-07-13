@@ -5,35 +5,35 @@ const COLOR_STORAGE_KEY = 'horses-colors';
 
 export default createStore({
   state: {
-    horses: [], // Atların listesi
-    raceSchedule: [], // Yarış programı
-    raceInterval: null, // Yarış intervali
+    horses: [], // List of horses
+    raceSchedule: [], // Race schedule
+    raceInterval: null, // Race interval
   },
   mutations: {
     setHorses(state, horses) {
-      state.horses = horses; // Atları state'e ayarlama
+      state.horses = horses; // Set horses to state
     },
     setRaceSchedule(state, schedule) {
-      state.raceSchedule = schedule; // Yarış programını state'e ayarlama
+      state.raceSchedule = schedule; // Set race schedule to state
     },
     updateHorsePosition(state, { horseId, position }) {
-      // Belirli bir atın pozisyonunu güncelleme
+      // Update position of a specific horse
       const horse = state.horses.find(h => h.id === horseId);
       if (horse) {
         horse.position = position;
       }
     },
     resetHorsePositions(state) {
-      // Tüm atların pozisyonunu sıfırlama
+      // Reset positions of all horses
       state.horses.forEach(horse => {
         horse.position = 0;
       });
     },
     SET_RACE_INTERVAL(state, interval) {
-      state.raceInterval = interval; // Yarış intervalini duruma ayarlama
+      state.raceInterval = interval; // Set race interval to state
     },
     CLEAR_RACE_INTERVAL(state) {
-      // Yarış intervalini temizleme
+      // Clear race interval
       if (state.raceInterval) {
         clearInterval(state.raceInterval);
         state.raceInterval = null;
@@ -42,25 +42,25 @@ export default createStore({
   },
   actions: {
     async generateHorses({ commit }) {
-      // Atları oluşturma ve yerel depolamadan yükleme
+      // Generate horses and load from local storage
       let storedHorses = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
       let storedColors = JSON.parse(localStorage.getItem(COLOR_STORAGE_KEY));
       
       if (!storedHorses || !storedColors) {
-        storedHorses = generateHorses(); // Yeni atlar oluşturma
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedHorses)); // Atları local depolamaya kaydetme
-        localStorage.setItem(COLOR_STORAGE_KEY, JSON.stringify(storedHorses.map(horse => horse.color))); // Renkleri local depolamaya kaydetme
+        storedHorses = generateHorses(); // Generate new horses
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedHorses)); // Save horses to local storage
+        localStorage.setItem(COLOR_STORAGE_KEY, JSON.stringify(storedHorses.map(horse => horse.color))); // Save colors to local storage
       }
-      commit('setHorses', storedHorses); // Atları state'e kaydet
-      const schedule = generateRaceSchedule(storedHorses); // Yarış programı oluşturma
-      commit('setRaceSchedule', schedule); // Yarış programını duruma kaydetme
+      commit('setHorses', storedHorses); // Save horses to state
+      const schedule = generateRaceSchedule(storedHorses); // Generate race schedule
+      commit('setRaceSchedule', schedule); // Save race schedule to state
     },
     async startRace({ commit, state }) {
-      // Yarışı başlatma
-      commit('resetHorsePositions'); // Atların pozisyonlarını sıfırlama
-      commit('CLEAR_RACE_INTERVAL'); // Mevcut yarışı durdurma
+      // Start the race
+      commit('resetHorsePositions'); // Reset horse positions
+      commit('CLEAR_RACE_INTERVAL'); // Clear current race interval
 
-      // Atların hızlarını durumlarına göre belirleme
+      // Determine horse speeds based on their conditions
       const horseSpeeds = state.horses.map(horse => calculateSpeed(horse.condition));
 
       const raceInterval = setInterval(() => {
@@ -69,24 +69,24 @@ export default createStore({
           let newPosition = horse.position + speed;
 
           if (newPosition > 605) {
-            newPosition = 605; // Atların maksimum pozisyonunu sınırlama
+            newPosition = 605; // Limit maximum position of horses
           }
 
-          commit('updateHorsePosition', { horseId: horse.id, position: newPosition }); // Atın pozisyonunu güncelleme
+          commit('updateHorsePosition', { horseId: horse.id, position: newPosition }); // Update horse position
           console.log(`Horse ${horse.id} has moved ${newPosition.toFixed(2)} pixels.`);
         });
 
         const allHorsesFinished = state.horses.every(horse => horse.position >= 605);
         if (allHorsesFinished) {
-          commit('CLEAR_RACE_INTERVAL'); // Tüm atlar bitiş çizgisine ulaştığında yarışı durdurma
+          commit('CLEAR_RACE_INTERVAL'); // Stop the race when all horses reach the finish line
           console.log('Race finished.');
         }
       }, 100);
 
-      commit('SET_RACE_INTERVAL', raceInterval); // Yarış intervalini duruma kaydetme
+      commit('SET_RACE_INTERVAL', raceInterval); // Save race interval to state
     },
     updateHorsePosition({ commit }, { horseId, position }) {
-      // Belirli bir atın pozisyonunu güncelleme
+      // Update position of a specific horse
       commit('updateHorsePosition', { horseId, position });
     },
   },
@@ -100,20 +100,20 @@ function generateHorses() {
   ];
 
   for (let i = 1; i <= 20; i++) {
-    const color = colors.splice(Math.floor(Math.random() * colors.length), 1)[0]; // Rastgele renk seçme
+    const color = colors.splice(Math.floor(Math.random() * colors.length), 1)[0]; // Select a random color
     horses.push({
       id: i,
       color: color,
-      condition: Math.floor(Math.random() * 100) + 1, // 1 ile 100 arasında rastgele bir condition değeri oluşturma
+      condition: Math.floor(Math.random() * 100) + 1, // Generate a random condition value between 1 and 100
       position: 0,
-      image: require(`@/assets/horse${i}.png`), // At resmi için
+      image: require(`@/assets/horse${i}.png`), // For horse image
     });
   }
   return horses;
 }
 
 function generateRaceSchedule(horses) {
-  const distances = [1200, 1400, 1600, 1800, 2000, 2200]; // Yarış mesafelerini belirlene
+  const distances = [1200, 1400, 1600, 1800, 2000, 2200]; // Define race distances
   const schedule = distances.map(distance => {
     const selectedHorses = [];
     const horseIds = new Set();
@@ -121,20 +121,20 @@ function generateRaceSchedule(horses) {
     for (let i = 1; i <= 10; i++) {
       let horse;
       do {
-        horse = horses[Math.floor(Math.random() * horses.length)]; // Rastgele at seçme
-      } while (horseIds.has(horse.id)); // Aynı atı tekrar seçmeyi önleme
+        horse = horses[Math.floor(Math.random() * horses.length)]; // Select a random horse
+      } while (horseIds.has(horse.id)); // Prevent selecting the same horse again
       selectedHorses.push(horse);
       horseIds.add(horse.id);
     }
 
     return {
       distance,
-      horses: selectedHorses, // Yarışa katılacak atlar
+      horses: selectedHorses, // Horses participating in the race
     };
   });
   return schedule;
 }
 
 function calculateSpeed(condition) {
-  return Math.round(condition / 2); // Atın hızını condition özelliklerine göre hesapla
+  return Math.round(condition / 2); // Calculate horse speed based on condition properties
 }

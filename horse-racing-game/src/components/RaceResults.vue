@@ -7,10 +7,10 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Her yarış için bir tablo satırı oluşturma -->
+        <!-- Creating a table row for each race -->
         <tr v-for="(race, index) in raceSchedule" :key="index" class="right-align">
           <td colspan="2" class="race-info">
-            <h3>{{ index + 1 }}ST Lab - {{ race.distance }}m</h3>
+            <h3>{{ index + 1 }}ST Lap - {{ race.distance }}m</h3>
             <div class="table-container">
               <table>
                 <thead>
@@ -20,10 +20,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- Her yarış için ilk 20 atı condition özelliklerine göre sıralama ve gösterme -->
+                  <!-- Sorting and displaying the top 20 horses for each race based on condition -->
                   <tr v-for="(horse, horseIndex) in race.horses.slice(0, 20).sort((a, b) => b.condition - a.condition)" :key="horseIndex">
                     <td>{{ horseIndex + 1 }}</td>
-                    <td >{{ getHorseName(horse.id) }}</td> 
+                    <td>{{ getHorseName(horse.id) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -38,13 +38,13 @@
 <script>
 export default {
   computed: {
-    // Yarış programını Vuex durumundan alma
+    // Getting the race schedule from Vuex state
     raceSchedule() {
       return this.$store.state.raceSchedule;
     }
   },
   methods: {
-    // Atın ismini getirme
+    // Get the name of the horse
     getHorseName(horseId) {
       const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
       return names[(horseId - 1) % names.length];

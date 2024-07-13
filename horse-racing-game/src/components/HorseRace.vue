@@ -1,15 +1,15 @@
 <template>
   <div class="race-results">
-    <!-- Her bir yarış için bölüm oluşturma -->
+    <!-- Creating a section for each race -->
     <div v-for="(race, index) in raceSchedule" :key="index" class="race-section">
       <div class="race-track">
         <div class="lanes">
           <div class="lane-top"></div>
-          <!-- Her kulvar için şerit oluşturma -->
+          <!-- Creating a lane stripe for each lane -->
           <div v-for="lane in lanes" :key="lane" class="lane">
             <div class="lane-number">{{ lane }}</div>
             <div class="horses">
-              <!-- Her kulvardaki atlar için bir at elemanı oluşturma -->
+              <!-- Creating a horse element for each horse in the lane -->
               <div
                 v-for="(horse, horseIndex) in horsesInLane(race, lane)"
                 :key="horseIndex"
@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-        <!-- kulvarların sonuna kırmızı çizgi/finish çizgisi oluşturma -->
+        <!-- Creating a red line/finish line at the end of lanes -->
         <div class="finish-line"></div>
         <div class="finish-text">FINISH</div>
         <h5>{{ index + 1 }}.st Lap - {{ race.distance }}m</h5>
@@ -36,22 +36,22 @@ import { mapState } from 'vuex';
 export default {
   name: 'HorseRace',
   computed: {
-    // Vuex store'dan raceSchedule state'ini eşleme
+    // Mapping raceSchedule state from Vuex store
     ...mapState(['raceSchedule']),
     lanes() {
-      return Array.from({ length: 10 }, (_, i) => i + 1); // 10 şerit oluşturma
+      return Array.from({ length: 10 }, (_, i) => i + 1); // Creating 10 lanes
     }
   },
   mounted() {
-    // Bileşen yüklendiğinde atları oluşturma işlemi
+    // Generating horses when component is mounted
     this.$store.dispatch('generateHorses');
   },
   methods: {
-    // Belirli bir yarış ve kulvardaki atları döndürme
+    // Retrieve horses in a specific race and lane
     horsesInLane(race, lane) {
       return race.horses.slice((lane - 1) * 10, lane * 10);
     },
-    // At ismini getirme
+    // Get horse name
     getHorseName(horseId) {
       const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
       return names[(horseId - 1) % names.length];

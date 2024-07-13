@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store';
 
-// Vue uygulamasını oluşturma ve Vuex store'u kullanarak başlatma
+// Create Vue application and initialize with Vuex store
 createApp(App)
-  .use(store) // Vuex store'u uygulama
-  .mount('#app'); // Uygulamayı '#app' id'sine sahip HTML elemanına monte etme
+  .use(store) // Use Vuex store in the application
+  .mount('#app'); // Mount the application to HTML element with id '#app'

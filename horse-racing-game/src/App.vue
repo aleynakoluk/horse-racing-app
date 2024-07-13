@@ -1,14 +1,14 @@
 <template>
   <div id="app" class="flex-container">
-    <!-- Kontrol butonları bileşeni -->
+    <!-- Control buttons component -->
     <ControlButtons />
-    <!-- At listesi bileşeni -->
+    <!-- Horse list component -->
     <HorseList />
-    <!-- Yarış programı bileşeni -->
+    <!-- Race schedule component -->
     <RaceSchedule />
-    <!-- Yarış sonuçları bileşeni -->
+    <!-- Race results component -->
     <RaceResults />
-    <!-- At yarışı bileşeni -->
+    <!-- Horse race component -->
     <HorseRace />
   </div>
 </template>
@@ -23,17 +23,17 @@ import HorseRace from './components/HorseRace.vue';
 export default {
   name: 'App',
   components: {
-    ControlButtons, // Kontrol butonları bileşeni
-    HorseList, // At listesi bileşeni
-    RaceSchedule, // Yarış programı bileşeni
-    RaceResults, // Yarış sonuçları bileşeni
-    HorseRace, // At yarışı bileşeni
+    ControlButtons, // Control buttons component
+    HorseList, // Horse list component
+    RaceSchedule, // Race schedule component
+    RaceResults, // Race results component
+    HorseRace, // Horse race component
   },
 };
 </script>
 
 <style>
-/* Global stiller */
+/* Global styles */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -45,11 +45,10 @@ body {
   font-family: 'Arial Narrow', Arial, sans-serif; 
   background:  #d8d8d8fe;
   display: flex;
-  flex-direction: row; /* Bileşenleri yatay olarak sıralama */
-  overflow: hidden; /* İçeriğin taşmasını engelleme */
-  flex-wrap: wrap; /* Bileşenlerin sığmadığı durumda alt satıra geçmesini sağlama */
+  flex-direction: row; /* Arrange components horizontally */
+  overflow: hidden; /* Prevent content overflow */
+  flex-wrap: wrap; /* Allow components to wrap to the next line if they don't fit */
 }
-
 
 h1 {
   color: #333;

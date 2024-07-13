@@ -1,17 +1,17 @@
 <template>
-  <!-- Header konteynerı -->
+  <!-- Header container -->
   <div class="header-container">
-    <!-- Header bölümü -->
+    <!-- Header section -->
     <header class="header">
-      <!-- Headerın sol kısmı -->
+      <!-- Left part of header -->
       <div class="left">
-        <h1>Horse Racing</h1> <!-- Header başlığı -->
+        <h1>Horse Racing</h1> <!-- Header title -->
       </div>
-      <!-- Headerın sağ kısmı -->
+      <!-- Right part of header -->
       <div class="right">
-        <!-- Program oluşturma butonu -->
+        <!-- Generate program button -->
         <button @click="handleGenerateScheduleClick" class="btn">GENERATE PROGRAM</button>
-        <!-- Yarış başlat/duraklat butonu -->
+        <!-- Start/pause race button -->
         <button @click="handleStartRaceClick" class="btn">START/PAUSE</button>
       </div>
     </header>
@@ -23,18 +23,18 @@ import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapState(['horses', 'raceInterval']), // Vuex durumunu bileşene aktarma
+    ...mapState(['horses', 'raceInterval']), // Import Vuex state into component
     raceRunning() {
-      return !!this.raceInterval; // Yarış animasyonu çalışıyor mu?
+      return !!this.raceInterval; // Check if race animation is running
     },
   },
   methods: {
-    ...mapActions(['generateHorses', 'startRace', 'updateHorsePosition']), // Vuex eylemlerini bileşene aktarma
-    ...mapMutations(['SET_RACE_INTERVAL', 'CLEAR_RACE_INTERVAL']), // Vuex mutasyonlarını bileşene aktarma
+    ...mapActions(['generateHorses', 'startRace', 'updateHorsePosition']), // Import Vuex actions into component
+    ...mapMutations(['SET_RACE_INTERVAL', 'CLEAR_RACE_INTERVAL']), // Import Vuex mutations into component
     async handleGenerateScheduleClick() {
-      // Program oluşturma butonuna tıklandığında tetiklenir
+      // Triggered when Generate Program button is clicked
       try {
-        await this.generateHorses(); // Atları oluşturma ve programı başlatma
+        await this.generateHorses(); // Generate horses and start the program
         console.log('Horses generated and race schedule created successfully!');
       } catch (error) {
         console.error('Error generating horses and creating race schedule:', error);
@@ -42,57 +42,57 @@ export default {
       }
     },
     async handleStartRaceClick() {
-      // Yarış başlat/duraklat butonuna tıklandığında bu işlemleri yapar:
+      // Perform these actions when Start/Pause Race button is clicked:
       if (this.raceRunning) {
-        this.pauseRace(); // Yarış çalışıyorsa duraklatma
+        this.pauseRace(); // Pause race if running
       } else {
-        this.startRace(); // Yarış duruyorsa başlatma
+        this.startRace(); // Start race if paused
       }
     },
     async pauseRace() {
-      // Yarışı duraklatma
-      this.CLEAR_RACE_INTERVAL(); // Yarış intervalini temizleme
+      // Pause the race
+      this.CLEAR_RACE_INTERVAL(); // Clear race interval
       console.log('Race paused.');
     },
     startRace() {
-      // Yarışı başlatma
+      // Start the race
       if (this.horses.length === 0) {
-        alert('Please generate horses first.'); // Atlar yoksa uyarı versin
+        alert('Please generate horses first.'); // Alert if no horses
         return;
       }
 
       const interval = setInterval(() => {
         this.horses.forEach(horse => {
-          const speed = this.calculateSpeed(horse.condition); // Atın hızını hesaplama
-          let newPosition = horse.position + speed; // Yeni pozisyonu hesaplama
+          const speed = this.calculateSpeed(horse.condition); // Calculate horse speed
+          let newPosition = horse.position + speed; // Calculate new position
 
-          // Atların 605 pikselden fazla hareket etmemesini sağlama
+          // Ensure horses do not move more than 605 pixels
           if (newPosition > 605) {
             newPosition = 605;
           }
 
-          this.updateHorsePosition({ horseId: horse.id, position: newPosition }); // Atın pozisyonunu güncelleme
+          this.updateHorsePosition({ horseId: horse.id, position: newPosition }); // Update horse position
           console.log(`Horse ${horse.id} has moved ${newPosition.toFixed(2)} pixels.`);
         });
 
-        // Tüm atlar bitiş çizgisine ulaştıysa yarışı bitirme
+        // Finish race if all horses reach the finish line
         const allHorsesFinished = this.horses.every(horse => horse.position >= 605);
         if (allHorsesFinished) {
-          this.CLEAR_RACE_INTERVAL(); // Yarış intervalini temizleme
+          this.CLEAR_RACE_INTERVAL(); // Clear race interval
           console.log('Race finished.');
         }
-      }, 100); // 100 ms aralıklarla pozisyonları güncelleme
+      }, 100); // Update positions every 100 ms
 
-      this.SET_RACE_INTERVAL(interval); // Yarış intervalini Vuex'te kaydetme
+      this.SET_RACE_INTERVAL(interval); // Save race interval in Vuex
       console.log('Race started.');
     },
     calculateSpeed(condition) {
-      // Atın hızını hesaplama
+      // Calculate horse speed
       return Math.round(condition / 2); 
     },
   },
   async mounted() {
-    // Bileşen yüklendiğinde atları oluşturma
+    // Generate horses when component is mounted
     try {
       await this.generateHorses();
     } catch (error) {
@@ -103,36 +103,36 @@ export default {
 </script>
 
 <style scoped>
-/* Header konteyner stili */
+/* Header container style */
 .header-container {
   background-color: #f08080;
   width: 100%;
 }
 
-/* Header stili */
+/* Header style */
 .header {
   position: sticky;
-  top: 0; /* Ekranın en üstüne yapıştır */
+  top: 0; /* Stick to the top of the screen */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 93px; /* Header yüksekliği */
-  padding: 0 20px; /* Sol ve sağ padding */
+  height: 93px; /* Header height */
+  padding: 0 20px; /* Left and right padding */
 }
 
-/* Headerın sol kısmı için başlık stili */
+/* Style for header title in the left part */
 .left h1 {
   margin: 0;
   color: #333;
 }
 
-/* Headerın sağ kısmı stili */
+/* Style for the right part of header */
 .right {
   display: flex;
   gap: 10px;
 }
 
-/* Buton stili */
+/* Button style */
 .btn {
   padding: 10px 50px;
   cursor: pointer;
