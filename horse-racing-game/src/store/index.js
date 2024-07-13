@@ -1,8 +1,5 @@
 import { createStore } from 'vuex';
 
-const LOCAL_STORAGE_KEY = 'storage';
-const COLOR_STORAGE_KEY = 'horses-colors';
-
 export default createStore({
   state: {
     horses: [], // List of horses
@@ -42,17 +39,10 @@ export default createStore({
   },
   actions: {
     async generateHorses({ commit }) {
-      // Generate horses and load from local storage
-      let storedHorses = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-      let storedColors = JSON.parse(localStorage.getItem(COLOR_STORAGE_KEY));
-      
-      if (!storedHorses || !storedColors) {
-        storedHorses = generateHorses(); // Generate new horses
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(storedHorses)); // Save horses to local storage
-        localStorage.setItem(COLOR_STORAGE_KEY, JSON.stringify(storedHorses.map(horse => horse.color))); // Save colors to local storage
-      }
-      commit('setHorses', storedHorses); // Save horses to state
-      const schedule = generateRaceSchedule(storedHorses); // Generate race schedule
+      // Generate horses
+      const horses = generateHorses(); // Generate new horses
+      commit('setHorses', horses); // Save horses to state
+      const schedule = generateRaceSchedule(horses); // Generate race schedule
       commit('setRaceSchedule', schedule); // Save race schedule to state
     },
     async startRace({ commit, state }) {
@@ -100,7 +90,7 @@ function generateHorses() {
   ];
 
   for (let i = 1; i <= 20; i++) {
-    const color = colors.splice(Math.floor(Math.random() * colors.length), 1)[0]; // Select a random color
+    const color = colors[i - 1]; // Use a fixed color based on index
     horses.push({
       id: i,
       color: color,
