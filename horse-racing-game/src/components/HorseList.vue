@@ -1,4 +1,5 @@
 <template>
+  <!-- At listesini içeren container divi oluşturma -->
   <div class="container" ref="horseContainer" @scroll="handleScroll">
     <div class="horse-list">
       <table>
@@ -13,8 +14,9 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Her bir at için bir tablo satır oluşturma-->
           <tr v-for="(horse, index) in displayedHorses" :key="index">
-            <td>{{ names[index % names.length] }}</td> <!-- Use names array cyclically -->
+            <td>{{ names[index % names.length] }}</td> 
             <td>{{ horse.condition }}</td>
             <td>
               <span>
@@ -32,31 +34,32 @@
 export default {
   data() {
     return {
-      horsesPerPage: 20,
-      scrollOffset: 0,
+      horsesPerPage: 20, // Her sayfada gösterilecek at sayısı
+      scrollOffset: 0, // Kaydırma konumunu takip etmek için offset
       names: ["Ekselans", "Herkül","Prens", "Görkem", "Karamel","Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius","Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz","Prenses"]
     };
   },
   computed: {
+    // Vuex store'dan atları getirme
     horses() {
       return this.$store.state.horses.map((horse, index) => ({
         ...horse,
         name: this.names[index % this.names.length]
       }));
     },
+    // Görüntülenen atları hesaplama
     displayedHorses() {
       return this.horses.slice(this.scrollOffset, this.scrollOffset + this.horsesPerPage);
     }
   },
   methods: {
+    // Başlangıçta atları getirme
     fetchInitialHorses() {
       this.$store.dispatch('generateHorses');
     },
-    handleScroll() {
-      // Handle scroll logic if needed
-    }
   },
   mounted() {
+    // Bileşen yüklendiğinde atları getirme
     this.fetchInitialHorses();
   }
 };
@@ -97,8 +100,7 @@ export default {
   border-radius: 4px;
   width: 100%;
   max-height: 100%;
-  border: 1px solid #333; /* Kenarlık */
-
+  border: 1px solid #333;
 }
 
 .table-title {

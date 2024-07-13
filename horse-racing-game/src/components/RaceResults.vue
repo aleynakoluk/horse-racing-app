@@ -7,6 +7,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Her yarış için bir tablo satırı oluşturma -->
         <tr v-for="(race, index) in raceSchedule" :key="index" class="right-align">
           <td colspan="2" class="race-info">
             <h3>{{ index + 1 }}ST Lab - {{ race.distance }}m</h3>
@@ -15,13 +16,14 @@
                 <thead>
                   <tr>
                     <th>Position</th>
-                    <th>Name</th> <!-- Değişiklik: Horse Name olarak güncellendi -->
+                    <th>Name</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- Her yarış için ilk 20 atı condition özelliklerine göre sıralama ve gösterme -->
                   <tr v-for="(horse, horseIndex) in race.horses.slice(0, 20).sort((a, b) => b.condition - a.condition)" :key="horseIndex">
                     <td>{{ horseIndex + 1 }}</td>
-                    <td >{{ getHorseName(horse.id) }}</td> <!-- getHorseName metodu kullanıldı -->
+                    <td >{{ getHorseName(horse.id) }}</td> 
                   </tr>
                 </tbody>
               </table>
@@ -36,11 +38,13 @@
 <script>
 export default {
   computed: {
+    // Yarış programını Vuex durumundan alma
     raceSchedule() {
       return this.$store.state.raceSchedule;
     }
   },
   methods: {
+    // Atın ismini getirme
     getHorseName(horseId) {
       const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
       return names[(horseId - 1) % names.length];

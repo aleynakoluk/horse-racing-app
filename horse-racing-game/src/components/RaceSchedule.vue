@@ -7,6 +7,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Her bir yarış için bir satır oluşturma -->
         <tr v-for="(race, index) in raceSchedule" :key="index" class="right-align">
           <td colspan="2" class="race-info">
             <h3>{{ index + 1 }}ST Lab - {{ race.distance }}m</h3>
@@ -19,9 +20,10 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <!-- Her bir at için bir satır oluşturma -->
                   <tr v-for="(horse, horseIndex) in race.horses.slice(0, 20)" :key="horseIndex">
                     <td>{{ horseIndex + 1 }}</td>
-                    <td >{{ getHorseName(horse.id) }}</td>
+                    <td>{{ getHorseName(horse.id) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -36,21 +38,20 @@
 <script>
 export default {
   computed: {
+    // Vuex store'dan yarış programını getirme
     raceSchedule() {
       return this.$store.state.raceSchedule;
     }
   },
   methods: {
+    // At ID'sine göre at ismini getirme
     getHorseName(horseId) {
-      // Replace with your logic to fetch horse name from the names array or elsewhere
-      // For example, assuming you have a names array:
       const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
-      // Assuming horseId starts from 1
-      return names[horseId - 1 % names.length];
+      return names[(horseId - 1) % names.length];
     }
   },
   created() {
-    // Fetch race schedule data when component is created
+    // Bileşen oluşturulduğunda yarış programını getirme
     this.$store.dispatch('fetchRaceSchedule');
   }
 };

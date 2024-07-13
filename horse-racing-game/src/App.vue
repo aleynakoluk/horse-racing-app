@@ -1,9 +1,14 @@
 <template>
   <div id="app" class="flex-container">
+    <!-- Kontrol butonları bileşeni -->
     <ControlButtons />
+    <!-- At listesi bileşeni -->
     <HorseList />
+    <!-- Yarış programı bileşeni -->
     <RaceSchedule />
+    <!-- Yarış sonuçları bileşeni -->
     <RaceResults />
+    <!-- At yarışı bileşeni -->
     <HorseRace />
   </div>
 </template>
@@ -18,11 +23,11 @@ import HorseRace from './components/HorseRace.vue';
 export default {
   name: 'App',
   components: {
-    ControlButtons,
-    HorseList,
-    RaceSchedule,
-    RaceResults,
-    HorseRace,
+    ControlButtons, // Kontrol butonları bileşeni
+    HorseList, // At listesi bileşeni
+    RaceSchedule, // Yarış programı bileşeni
+    RaceResults, // Yarış sonuçları bileşeni
+    HorseRace, // At yarışı bileşeni
   },
 };
 </script>
@@ -40,9 +45,9 @@ body {
   font-family: 'Arial Narrow', Arial, sans-serif; 
   background:  #d8d8d8fe;
   display: flex;
-  flex-direction: row; /* Bileşenleri yatay olarak sırala */
-  overflow: hidden; /* İçeriğin taşmasını engeller */
-  flex-wrap: wrap; /* Bileşenlerin sığmadığı durumda alt satıra geçmesini sağlar */
+  flex-direction: row; /* Bileşenleri yatay olarak sıralama */
+  overflow: hidden; /* İçeriğin taşmasını engelleme */
+  flex-wrap: wrap; /* Bileşenlerin sığmadığı durumda alt satıra geçmesini sağlama */
 }
 
 

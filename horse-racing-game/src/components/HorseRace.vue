@@ -1,12 +1,15 @@
 <template>
   <div class="race-results">
+    <!-- Her bir yarış için bölüm oluşturma -->
     <div v-for="(race, index) in raceSchedule" :key="index" class="race-section">
       <div class="race-track">
         <div class="lanes">
           <div class="lane-top"></div>
+          <!-- Her kulvar için şerit oluşturma -->
           <div v-for="lane in lanes" :key="lane" class="lane">
             <div class="lane-number">{{ lane }}</div>
             <div class="horses">
+              <!-- Her kulvardaki atlar için bir at elemanı oluşturma -->
               <div
                 v-for="(horse, horseIndex) in horsesInLane(race, lane)"
                 :key="horseIndex"
@@ -18,6 +21,7 @@
             </div>
           </div>
         </div>
+        <!-- kulvarların sonuna kırmızı çizgi/finish çizgisi oluşturma -->
         <div class="finish-line"></div>
         <div class="finish-text">FINISH</div>
         <h5>{{ index + 1 }}.st Lap - {{ race.distance }}m</h5>
@@ -32,18 +36,22 @@ import { mapState } from 'vuex';
 export default {
   name: 'HorseRace',
   computed: {
+    // Vuex store'dan raceSchedule state'ini eşleme
     ...mapState(['raceSchedule']),
     lanes() {
-      return Array.from({ length: 10 }, (_, i) => i + 1);
+      return Array.from({ length: 10 }, (_, i) => i + 1); // 10 şerit oluşturma
     }
   },
   mounted() {
-    this.$store.dispatch('generateHorses'); // Dispatch action to generate horses
+    // Bileşen yüklendiğinde atları oluşturma işlemi
+    this.$store.dispatch('generateHorses');
   },
   methods: {
+    // Belirli bir yarış ve kulvardaki atları döndürme
     horsesInLane(race, lane) {
       return race.horses.slice((lane - 1) * 10, lane * 10);
     },
+    // At ismini getirme
     getHorseName(horseId) {
       const names = ["Ekselans", "Herkül", "Prens", "Görkem", "Karamel", "Roswell", "Romeo", "Taffy", "Tekila", "Popcorn", "Sirius", "Uila", "Buddy", "Max", "Black Beauty", "Alfa", "Asalet", "Siyah İnci", "Abanoz", "Prenses"];
       return names[(horseId - 1) % names.length];
@@ -159,18 +167,5 @@ h5 {
   top: 510px;
   color: red;
   font-weight: bold;
-}
-
-@keyframes run {
-  from {
-    left: -50%;
-  }
-  to {
-    left: 210px;
-  }
-}
-
-.horse {
-  animation: none;
 }
 </style>
