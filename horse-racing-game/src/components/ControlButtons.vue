@@ -14,39 +14,64 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default {
+  computed: {
+    ...mapState(['horses']),
+  },
   methods: {
-    ...mapActions(['generateHorses', 'startRace']),
+    ...mapActions(['generateHorses', 'startRace', 'updateHorsePosition']),
     async handleGenerateScheduleClick() {
       try {
         await this.generateHorses();
-        await this.startRace(); // Yarış programını da başlat
-        console.log('Horses generated and race started successfully!');
+        console.log('Horses generated and race schedule created successfully!');
       } catch (error) {
-        console.error('Error generating horses and starting race:', error);
-        alert('Error generating horses and starting race. Please try again later.');
+        console.error('Error generating horses and creating race schedule:', error);
+        alert('Error generating horses and creating race schedule. Please try again later.');
       }
     },
-
     async handleStartRaceClick() {
       try {
         await this.startRace();
-        // Yarış başarıyla tamamlandıktan sonra yapılacak işlemler
+        this.startAnimation();
       } catch (error) {
         console.error('Error starting race:', error);
-        // Hata durumunda yapılacak işlemler
       }
+    },
+    startAnimation() {
+      const interval = setInterval(() => {
+        this.horses.forEach(horse => {
+          const speed = this.calculateSpeed(horse.condition);
+          let newPosition = horse.position + speed;
+          
+          // Ensure horses cannot move beyond 305 pixels
+          if (newPosition > 305) {
+            newPosition = 305;
+          }
+          
+          this.updateHorsePosition({ horseId: horse.id, position: newPosition });
+          console.log(`Horse ${horse.id} has moved ${newPosition.toFixed(2)} pixels.`);
+        });
+
+        const allHorsesFinished = this.horses.every(horse => horse.position >= 305);
+        if (allHorsesFinished) {
+          clearInterval(interval);
+        }
+      }, 100); // Animasyon hızı (ms cinsinden)
+    },
+    calculateSpeed(condition) {
+      // Koşul değerine göre at hızını hesapla
+      // Örneğin, aşağıdaki gibi bir örnek hesaplama yapabilirsiniz:
+      // Koşul büyüdükçe hız artar
+      return Math.round(condition / 10); // Örneğin: Koşul değeri / 10
     },
   },
   async mounted() {
-    // Sayfa yüklendiğinde atların konumunu ayarlamak için
     try {
       await this.generateHorses();
-      await this.startRace();
     } catch (error) {
-      console.error('Error initializing horses and race:', error);
+      console.error('Error initializing horses and race schedule:', error);
     }
   },
 };

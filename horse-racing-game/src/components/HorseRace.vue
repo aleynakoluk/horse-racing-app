@@ -115,7 +115,6 @@ export default {
 .horses {
   position: relative;
   left: 0;
-  right: 0;
   display: flex; /* Atları flex item olarak ayarla */
   flex-direction: column; /* Atları alt alta sırala */
 }
