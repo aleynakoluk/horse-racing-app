@@ -68,7 +68,7 @@ export default {
   position: absolute;
   top: 0;
   margin-top: 90px;
-  right: 138px;
+  right: 153px;
 }
 
 .race-schedule::-webkit-scrollbar {
