@@ -26,10 +26,10 @@ export default createStore({
         horse.position = 0;
       });
     },
-    setRaceInterval(state, interval) {
+    SET_RACE_INTERVAL(state, interval) {
       state.raceInterval = interval;
     },
-    clearRaceInterval(state) {
+    CLEAR_RACE_INTERVAL(state) {
       if (state.raceInterval) {
         clearInterval(state.raceInterval);
         state.raceInterval = null;
@@ -49,30 +49,36 @@ export default createStore({
     },
     async startRace({ commit, state }) {
       commit('resetHorsePositions');
-      commit('clearRaceInterval');
+      commit('CLEAR_RACE_INTERVAL');
 
       // Determine horse speeds based on their conditions
       const horseSpeeds = state.horses.map(horse => calculateSpeed(horse.condition));
 
       const raceInterval = setInterval(() => {
         state.horses.forEach((horse, index) => {
-          let newPosition = horse.position + horseSpeeds[index];
-          
+          const speed = horseSpeeds[index];
+          let newPosition = horse.position + speed;
+
           // Ensure horses cannot move beyond 305 pixels
           if (newPosition > 305) {
             newPosition = 305;
           }
-          
+
           commit('updateHorsePosition', { horseId: horse.id, position: newPosition });
+          console.log(`Horse ${horse.id} has moved ${newPosition.toFixed(2)} pixels.`);
         });
 
         const allHorsesFinished = state.horses.every(horse => horse.position >= 305);
         if (allHorsesFinished) {
-          commit('clearRaceInterval');
+          commit('CLEAR_RACE_INTERVAL');
+          console.log('Race finished.');
         }
       }, 100); // Animasyon hızı (ms cinsinden)
 
-      commit('setRaceInterval', raceInterval);
+      commit('SET_RACE_INTERVAL', raceInterval);
+    },
+    updateHorsePosition({ commit }, { horseId, position }) {
+      commit('updateHorsePosition', { horseId, position });
     },
   },
 });
@@ -84,22 +90,12 @@ function generateHorses() {
     horses.push({
       id: i,
       color: getRandomColor(),
-      condition: Math.floor(Math.random() * 61) + 40, // 40 ile 100 arası rastgele bir değer oluştur
+      condition: Math.floor(Math.random() * 61) + 40,
       position: 0,
       image: require(`@/assets/horse${i}.png`),
     });
   }
   return horses;
-}
-
-// Function to generate random color
-function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
 }
 
 // Function to generate race schedule
@@ -128,7 +124,15 @@ function generateRaceSchedule(horses) {
 
 // Function to calculate horse speed based on condition
 function calculateSpeed(condition) {
-  // Implement your speed calculation logic based on horse condition
-  // For example, adjust this calculation according to your needs
-  return Math.round(condition / 10); // Example: Speed increases with condition
+  return Math.round(condition / 10);
+}
+
+// Function to generate random color
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
 }
