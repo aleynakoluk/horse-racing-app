@@ -74,6 +74,7 @@ export default {
   height: 400px;
   overflow-y: scroll;
   overflow-x: hidden;
+  margin-top: 20px;
 }
 
 .horse-list::-webkit-scrollbar {
@@ -134,7 +135,7 @@ th {
 @media (min-width: 600px) {
   .container {
     max-width: 300px;
-    height: 720px;
+    height: 700px;
     padding-left: 20px;
   }
 

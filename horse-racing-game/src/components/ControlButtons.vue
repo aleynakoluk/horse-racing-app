@@ -57,16 +57,16 @@ export default {
           const speed = this.calculateSpeed(horse.condition);
           let newPosition = horse.position + speed;
 
-          // Ensure horses cannot move beyond 305 pixels
-          if (newPosition > 305) {
-            newPosition = 305;
+          // Ensure horses cannot move beyond 605 pixels
+          if (newPosition > 605) {
+            newPosition = 605;
           }
 
           this.updateHorsePosition({ horseId: horse.id, position: newPosition });
           console.log(`Horse ${horse.id} has moved ${newPosition.toFixed(2)} pixels.`);
         });
 
-        const allHorsesFinished = this.horses.every(horse => horse.position >= 305);
+        const allHorsesFinished = this.horses.every(horse => horse.position >= 605);
         if (allHorsesFinished) {
           this.CLEAR_RACE_INTERVAL();
           console.log('Race finished.');

@@ -60,14 +60,14 @@ export default {
 .race-schedule {
   flex: 1;
   max-width: 180px;
-  max-height: 732px;
+  max-height: 702px;
   overflow-y: auto;
   background-color: #fff;
   border: 1px solid #333;
   border-radius: 4px;
   position: absolute;
   top: 0;
-  margin-top: 90px;
+  margin-top: 120px;
   right: 153px;
 }
 

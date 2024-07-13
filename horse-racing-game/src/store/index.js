@@ -63,16 +63,16 @@ export default createStore({
           const speed = horseSpeeds[index];
           let newPosition = horse.position + speed;
 
-          // Ensure horses cannot move beyond 305 pixels
-          if (newPosition > 305) {
-            newPosition = 305;
+          // Ensure horses cannot move beyond 605 pixels
+          if (newPosition > 605) {
+            newPosition = 605;
           }
 
           commit('updateHorsePosition', { horseId: horse.id, position: newPosition });
           console.log(`Horse ${horse.id} has moved ${newPosition.toFixed(2)} pixels.`);
         });
 
-        const allHorsesFinished = state.horses.every(horse => horse.position >= 305);
+        const allHorsesFinished = state.horses.every(horse => horse.position >= 605);
         if (allHorsesFinished) {
           commit('CLEAR_RACE_INTERVAL');
           console.log('Race finished.');

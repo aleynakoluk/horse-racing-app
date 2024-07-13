@@ -14,7 +14,6 @@
                 :style="{ left: horse.position + '%' }"
               >
                 <img :src="horse.image" :alt="'horse ' + getHorseName(horse.id)">
-                <span :style="{ color: horse.color }">{{ getHorseName(horse.id) }}</span>
               </div>
             </div>
           </div>

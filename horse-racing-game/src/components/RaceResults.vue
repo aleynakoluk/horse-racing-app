@@ -53,7 +53,7 @@ export default {
 .race-result {
   flex: 1;
   max-width: 180px;
-  max-height: 732px;
+  max-height: 702px;
   overflow-y: auto;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -61,7 +61,7 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  margin-top: 90px;
+  margin-top: 120px;
   border: 1px solid #333;
 }
 
