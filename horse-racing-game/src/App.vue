@@ -43,13 +43,13 @@ body {
 
 #app {
   font-family: 'Arial Narrow', Arial, sans-serif; 
-  background: #d8d8d8fe;
+  background:  #d8d8d8fe;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  min-height: 100vh;
-  overflow: hidden;
+  flex-direction: row; /* Arrange components horizontally */
+  overflow: hidden; /* Prevent content overflow */
+  flex-wrap: wrap; /* Allow components to wrap to the next line if they don't fit */
 }
+
 h1 {
   color: #333;
   margin-bottom: 20px;
