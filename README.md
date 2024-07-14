@@ -14,7 +14,17 @@ The **START/PAUSE** button has several functions. To start or stop the race. If 
 When the race is over, all horses stop at the **finish line**
 
 <img width="1470" alt="4" src="https://github.com/user-attachments/assets/4521461e-ca69-4051-9862-eb281e139499"> </br>
+## Rules
 
+- There should be 20 horses for the race.
+- Each horse must be a different color.
+- The condition of each horse should be between 1-100.
+- 6 rounds of running must be done in 1 race.
+- Each round must run 10 horses randomly selected out of 20 horses.
+- 6 rounds respectively (1200m, 1400m, 1600m, 1800m, 2000m, 2200m) should be done in these lengths.
+- Vuex store usage expected.
+- Component design expected.
+  
 ## Setup
 
 ### Repository Download and Installation
