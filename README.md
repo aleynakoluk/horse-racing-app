@@ -47,6 +47,10 @@ Starting the Application
 ```bash
 npm run serve
 ```
+
 After the application starts, you can view it at http://localhost:8080.
+
+## Watch the video
+[Watch the video demonstration here](https://drive.google.com/file/d/1xrcepdHvG5uF3FKMVM3or26baHsE0tFc/view?usp=drivesdk)
 
 
