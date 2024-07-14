@@ -1,30 +1,32 @@
 <template>
-  <div class="race-results">
-    <!-- Creating a section for each race -->
-    <div v-for="(race, index) in raceSchedule" :key="index" class="race-section">
-      <div class="race-track">
-        <div class="lanes">
-          <div class="lane-top"></div>
-          <!-- Creating a lane stripe for each lane -->
-          <div v-for="lane in lanes" :key="lane" class="lane">
-            <div class="lane-number">{{ lane }}</div>
-            <div class="horses">
-              <!-- Creating a horse element for each horse in the lane -->
-              <div
-                v-for="(horse, horseIndex) in horsesInLane(race, lane)"
-                :key="horseIndex"
-                class="horse"
-                :style="{ left: horse.position + '%' }"
-              >
-                <img :src="horse.image" :alt="'horse ' + getHorseName(horse.id)">
+  <div class="page-container">
+    <div class="horse-race">
+      <!-- Creating a section for each race -->
+      <div v-for="(race, index) in raceSchedule" :key="index" class="race-section">
+        <div class="race-track">
+          <div class="lanes">
+            <div class="lane-top"></div>
+            <!-- Creating a lane stripe for each lane -->
+            <div v-for="lane in lanes" :key="lane" class="lane">
+              <div class="lane-number">{{ lane }}</div>
+              <div class="horses">
+                <!-- Creating a horse element for each horse in the lane -->
+                <div
+                  v-for="(horse, horseIndex) in horsesInLane(race, lane)"
+                  :key="horseIndex"
+                  class="horse"
+                  :style="{ left: horse.position + '%' }"
+                >
+                  <img :src="horse.image" :alt="'horse ' + getHorseName(horse.id)">
+                </div>
               </div>
             </div>
           </div>
+          <!-- Creating a red line/finish line at the end of lanes -->
+          <div class="finish-line"></div>
+          <div class="finish-text">FINISH</div>
+          <h5>{{ index + 1 }}.st Lap - {{ race.distance }}m</h5>
         </div>
-        <!-- Creating a red line/finish line at the end of lanes -->
-        <div class="finish-line"></div>
-        <div class="finish-text">FINISH</div>
-        <h5>{{ index + 1 }}.st Lap - {{ race.distance }}m</h5>
       </div>
     </div>
   </div>
@@ -61,17 +63,24 @@ export default {
 </script>
 
 <style scoped>
-.race-results {
+.page-container {
+  display: flex;
+  justify-content: center; /* Align items to the right */
+  width: 100%;
+  position: absolute;
+  margin-top: 90px;
+  margin-bottom: 60px;
+}
+
+.horse-race {
   display: flex;
   flex-direction: column;
   gap: 20px;
   justify-content: flex-start;
   align-items: center;
-  width: 550px;
+  width: 420px;
   height: 730px;
   overflow-y: scroll;
-  padding-left: 10px;
-  border-radius: 4px;
   overflow-x: hidden;
 }
 
