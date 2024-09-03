@@ -1,0 +1,15 @@
+# macOS sistem dosyaları
+.DS_Store
+
+# Node.js ve ilgili dosyalar
+node_modules/
+package-lock.json
+
+# Proje yapılandırma dosyaları
+babel.config.js
+jsconfig.json
+package.json
+vue.config.js
+
+# Genel olarak hariç tutmak istediğiniz diğer dosyalar
+README.md
